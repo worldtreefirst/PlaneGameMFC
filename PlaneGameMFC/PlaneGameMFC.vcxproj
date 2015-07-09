@@ -108,6 +108,7 @@
     <ClInclude Include="MyEnemyBomb.h" />
     <ClInclude Include="MyExplosion.h" />
     <ClInclude Include="MyGameObject.h" />
+    <ClInclude Include="MyHpStrip.h" />
     <ClInclude Include="MyPlane.h" />
     <ClInclude Include="PlaneGameMFC.h" />
     <ClInclude Include="Resource.h" />
@@ -122,6 +123,7 @@
     <ClCompile Include="MyEnemyBomb.cpp" />
     <ClCompile Include="MyExplosion.cpp" />
     <ClCompile Include="MyGameObject.cpp" />
+    <ClCompile Include="MyHpStrip.cpp" />
     <ClCompile Include="MyPlane.cpp" />
     <ClCompile Include="PlaneGameMFC.cpp" />
     <ClCompile Include="stdafx.cpp">

@@ -8,6 +8,7 @@
 
 // CChildView ´°¿Ú
 class MyPlane;
+class MyHpStrip;
 class CChildView : public CWnd
 {
 public:
@@ -37,13 +38,13 @@ private:
     CDC m_cacheDC;
     CRect m_client;
     MyPlane* m_hero;
-    CObList m_list[5];
+    MyHpStrip* m_herohp;
+    CObList m_list[50];
     CImage m_bg;
     CImage testHero;
     CBitmap m_BitmapBg1;
     CBitmap m_BitmapBg2;
     CBitmap m_cacheBitmap;
-    enum ObjType{ enEnemy, enBomb, enEnemyBomb, enExplosion };
-
+    enum ObjType{ enEnemy, enBomb, enEnemyBomb, enHpStrip, enExplosion };
 };
 

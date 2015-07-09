@@ -3,7 +3,7 @@
 #include "resource.h"
 
 
-MyPlane::MyPlane() : MyGameObject(250, 550, 5)
+MyPlane::MyPlane() : MyGameObject(250, 550, 10000000)
 {
     imagesWidth = 60;
     imagesHeight = 60;

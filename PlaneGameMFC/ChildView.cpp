@@ -10,6 +10,7 @@
 #include "MyPlane.h"
 #include "MyBomb.h"
 #include "MyEnemy.h"
+#include "MyHpStrip.h"
 #include "MyEnemyBomb.h"
 #include "MyExplosion.h"
 
@@ -77,6 +78,7 @@ BOOL CChildView::PreCreateWindow(CREATESTRUCT& cs)
 
     //加载英雄
     m_hero = new MyPlane;
+    m_herohp = new MyHpStrip;
 
     //加载音乐资源
     TCHAR tmpmp3[_MAX_PATH];
@@ -139,6 +141,8 @@ void CChildView::Running()
     if (m_hero != NULL)
     {
         m_hero->m_Images.TransparentBlt(m_cacheDC, m_hero->GetPoint().x, m_hero->GetPoint().y, PLANE_WIDTH, PLANE_HEIGHE, 0, 0, m_hero->m_Images.GetWidth(), m_hero->m_Images.GetHeight(), RGB(255, 255, 255));
+        m_herohp->m_Images.Draw(m_cacheDC, m_hero->GetPoint().x, m_hero->GetPoint().y - 20, PLANE_WIDTH * m_hero->GetHp() / m_hero->GetMaxHp(), 10, 0, 0, PLANE_WIDTH, PLANE_HEIGHE);
+
     }
     else
     {
@@ -146,7 +150,7 @@ void CChildView::Running()
         TextOut(m_cacheDC, 0, 0, str, str.GetLength());
     }
 
-    //画导弹
+    //画导弹, 敌机， 敌机子弹
     for (int i = 0; i < 3; i++)
     {
         POSITION pos1, pos2;
@@ -165,6 +169,14 @@ void CChildView::Running()
                 delete pObj;
             }
         }
+    }
+
+    //画敌机血条
+
+    for (POSITION pos = m_list[enEnemy].GetHeadPosition(); pos != NULL;)
+    {
+        MyEnemy* pEnemy = (MyEnemy*)m_list[enEnemy].GetNext(pos);
+        pEnemy->enemyHp->m_Images.Draw(m_cacheDC, pEnemy->GetPoint().x, pEnemy->GetPoint().y - 20, PLANE_WIDTH * pEnemy->GetHp() / pEnemy->GetMaxHp(), 10, 0, 0, PLANE_WIDTH, PLANE_WIDTH);
     }
 
     //画爆炸
@@ -395,6 +407,7 @@ void CChildView::OnTimer(UINT_PTR nIDEvent)
         OnPaint();
         break;
     case TIMER_CREATENEMY:
+        //创建敌机
         m_list[enEnemy].AddTail(new MyEnemy(rand() % (min(PAGE_WIDTH, WINDOWS_WIDTH) - 60), -60));
         break;
     default:

@@ -1,5 +1,6 @@
 #pragma once
 #include "MyGameObject.h"
+#include "MyHpStrip.h"
 class MyEnemy :
     public MyGameObject
 {
@@ -14,6 +15,9 @@ public:
 public:
     MyEnemy(int x, int y);
     ~MyEnemy();
+
+public:
+    MyHpStrip* enemyHp;
 
 private:
     int nFire;

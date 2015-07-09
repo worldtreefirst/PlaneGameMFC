@@ -54,6 +54,9 @@
     <ClInclude Include="MyExplosion.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="MyHpStrip.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlaneGameMFC.cpp">
@@ -84,6 +87,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="MyExplosion.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="MyHpStrip.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

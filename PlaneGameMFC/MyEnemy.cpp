@@ -2,7 +2,7 @@
 #include "MyEnemy.h"
 #include "resource.h"
 
-MyEnemy::MyEnemy(int x, int y) : MyGameObject(x, y, 1)
+MyEnemy::MyEnemy(int x, int y) : MyGameObject(x, y, 5)
 {
     imagesWidth = 60;
     imagesHeight = 60;
@@ -24,11 +24,13 @@ MyEnemy::MyEnemy(int x, int y) : MyGameObject(x, y, 1)
     }
     nFire = rand() % 75 + 1;
     planeV = rand() % 5 + 3;
+    enemyHp = new MyHpStrip;
 }
 
 
 MyEnemy::~MyEnemy()
 {
+    delete enemyHp;
 }
 
 int MyEnemy::GetMove() const

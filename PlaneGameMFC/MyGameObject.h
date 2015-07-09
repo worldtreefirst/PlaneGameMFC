@@ -11,6 +11,7 @@ public:
 public:
     MyGameObject(int x = 0, int y = 0, int h = 1);
     int GetHp()const;
+    int GetMaxHp() const;
     int GetImagesWidth() const;
     int GetImagesHeight() const;
     void SetPoint(int x, int y);
@@ -22,6 +23,7 @@ public:
     CImage m_Images;
 protected:
     int hp;
+    int maxHp;
     int windowsHeight;
     int imagesWidth;
     int imagesHeight;

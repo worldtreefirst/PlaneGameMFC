@@ -4,6 +4,7 @@
 
 MyGameObject::MyGameObject(int x, int y, int h) : m_ptPos(x, y), hp(h)
 {
+    maxHp = hp;
 }
 
 
@@ -20,6 +21,11 @@ CPoint MyGameObject::GetPoint()
 int MyGameObject::GetHp() const
 {
     return hp;
+}
+
+int MyGameObject::GetMaxHp() const
+{
+    return maxHp;
 }
 
 int MyGameObject::GetImagesWidth() const

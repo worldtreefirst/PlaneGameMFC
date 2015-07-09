@@ -41,6 +41,7 @@
 #define IDB_BOMB1                       326
 #define IDB_ENEMYBOMB                   327
 #define IDB_EXP                         328
+#define IDB_MYHEROHP                    329
 
 // Next default values for new objects
 // 
