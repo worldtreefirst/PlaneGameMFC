@@ -2,7 +2,7 @@
 #include "MyEnemy.h"
 #include "resource.h"
 
-MyEnemy::MyEnemy(int x, int y) : MyGameObject(x, y, 5)
+MyEnemy::MyEnemy(int x, int y, int h) : MyGameObject(x, y, h)
 {
     imagesWidth = 60;
     imagesHeight = 60;
@@ -22,7 +22,8 @@ MyEnemy::MyEnemy(int x, int y) : MyGameObject(x, y, 5)
         m_Images.LoadFromResource(AfxGetInstanceHandle(), IDB_ENEMY3);
         break;
     }
-    nFire = rand() % 75 + 1;
+    lFire = rand() % 50 + 50;
+    nFire = rand() % lFire + 1;
     planeV = rand() % 5 + 3;
     enemyHp = new MyHpStrip;
 }
@@ -46,7 +47,7 @@ void MyEnemy::GetWindowsHeight(int x)
 BOOL MyEnemy::Drop()
 {
     if (nFire) nFire++;
-    if (nFire > 75) nFire = 0;
+    if (nFire > lFire) nFire = 0;
     if (GetPoint().y > windowsHeight) return TRUE;
     return FALSE;
 }

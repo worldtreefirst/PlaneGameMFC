@@ -188,7 +188,7 @@ CAPTION "关于 PlaneGameMFC"
 FONT 9, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     ICON            IDR_MAINFRAME,IDC_STATIC,14,14,20,20
-    LTEXT           "飞机大战 v1.0",IDC_STATIC,39,14,48,8,SS_NOPREFIX
+    LTEXT           "飞机大战 v1.1",IDC_STATIC,39,14,48,8,SS_NOPREFIX
     DEFPUSHBUTTON   "确定",IDOK,107,63,50,14,WS_GROUP
     LTEXT           "By ",IDC_STATIC,55,25,59,8
     LTEXT           "---ZmiL      2015",IDC_STATIC,65,34,65,9

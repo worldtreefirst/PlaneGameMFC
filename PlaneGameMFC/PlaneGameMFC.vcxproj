@@ -142,6 +142,7 @@
     <Image Include="res\picture\Enemy3.bmp" />
     <Image Include="res\picture\EnemyBomb.bmp" />
     <Image Include="res\picture\ExplosionEnemy.bmp" />
+    <Image Include="res\picture\HeroHp.bmp" />
     <Image Include="res\picture\Plane.bmp" />
     <Image Include="res\PlaneGameMFC.ico" />
     <Image Include="res\Toolbar.bmp" />

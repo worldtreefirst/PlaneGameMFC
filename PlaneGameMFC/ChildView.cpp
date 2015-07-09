@@ -408,7 +408,7 @@ void CChildView::OnTimer(UINT_PTR nIDEvent)
         break;
     case TIMER_CREATENEMY:
         //´´½¨µÐ»ú
-        m_list[enEnemy].AddTail(new MyEnemy(rand() % (min(PAGE_WIDTH, WINDOWS_WIDTH) - 60), -60));
+        m_list[enEnemy].AddTail(new MyEnemy(rand() % (min(PAGE_WIDTH, WINDOWS_WIDTH) - 60), -60, rand() % 5 + 1));
         break;
     default:
         break;

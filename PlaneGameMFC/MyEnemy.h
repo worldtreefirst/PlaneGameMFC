@@ -13,13 +13,14 @@ public:
     BOOL Fire();
 
 public:
-    MyEnemy(int x, int y);
+    MyEnemy(int x, int y, int h);
     ~MyEnemy();
 
 public:
     MyHpStrip* enemyHp;
 
 private:
+    int lFire;
     int nFire;
     int planeV;
     int planeType;
