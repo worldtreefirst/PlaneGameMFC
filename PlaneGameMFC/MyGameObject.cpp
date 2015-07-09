@@ -2,7 +2,7 @@
 #include "MyGameObject.h"
 
 
-MyGameObject::MyGameObject(int x, int y) : m_ptPos(x, y)
+MyGameObject::MyGameObject(int x, int y, int h) : m_ptPos(x, y), hp(h)
 {
 }
 
@@ -17,10 +17,9 @@ CPoint MyGameObject::GetPoint()
     return m_ptPos;
 }
 
-void MyGameObject::SetPoint(int x, int y)
+int MyGameObject::GetHp() const
 {
-    m_ptPos.x = x;
-    m_ptPos.y = y;
+    return hp;
 }
 
 int MyGameObject::GetImagesWidth() const
@@ -33,7 +32,18 @@ int MyGameObject::GetImagesHeight() const
     return imagesHeight;
 }
 
-void MyGameObject::GetWindowsHeight(int x)
+void MyGameObject::SetWindowsHeight(int x)
 {
     windowsHeight = x;
+}
+
+void MyGameObject::SetPoint(int x, int y)
+{
+    m_ptPos.x = x;
+    m_ptPos.y = y;
+}
+
+void MyGameObject::SetHp(int x)
+{
+    hp = x;
 }

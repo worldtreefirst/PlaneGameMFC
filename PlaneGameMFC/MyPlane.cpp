@@ -3,7 +3,7 @@
 #include "resource.h"
 
 
-MyPlane::MyPlane() : MyGameObject(250, 550)
+MyPlane::MyPlane() : MyGameObject(250, 550, 5)
 {
     imagesWidth = 60;
     imagesHeight = 60;
@@ -16,16 +16,6 @@ MyPlane::MyPlane() : MyGameObject(250, 550)
 
 MyPlane::~MyPlane()
 {
-}
-
-int MyPlane::GetPointX()
-{
-    return GetPoint().x;
-}
-
-int MyPlane::GetPointY()
-{
-    return GetPoint().y;
 }
 
 int MyPlane::GetVerMotion() const

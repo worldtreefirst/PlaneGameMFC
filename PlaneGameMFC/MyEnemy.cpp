@@ -2,7 +2,7 @@
 #include "MyEnemy.h"
 #include "resource.h"
 
-MyEnemy::MyEnemy(int x, int y) : MyGameObject(x, y)
+MyEnemy::MyEnemy(int x, int y) : MyGameObject(x, y, 1)
 {
     imagesWidth = 60;
     imagesHeight = 60;

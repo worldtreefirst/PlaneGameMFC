@@ -138,7 +138,7 @@ void CChildView::Running()
     //贴英雄
     if (m_hero != NULL)
     {
-        m_hero->m_Images.TransparentBlt(m_cacheDC, m_hero->GetPointX(), m_hero->GetPointY(), PLANE_WIDTH, PLANE_HEIGHE, 0, 0, m_hero->m_Images.GetWidth(), m_hero->m_Images.GetHeight(), RGB(255, 255, 255));
+        m_hero->m_Images.TransparentBlt(m_cacheDC, m_hero->GetPoint().x, m_hero->GetPoint().y, PLANE_WIDTH, PLANE_HEIGHE, 0, 0, m_hero->m_Images.GetWidth(), m_hero->m_Images.GetHeight(), RGB(255, 255, 255));
     }
     else
     {
@@ -153,7 +153,7 @@ void CChildView::Running()
         for (pos1 = m_list[i].GetHeadPosition(); (pos2 = pos1) != NULL;)
         {
             MyGameObject* pObj = (MyGameObject*)m_list[i].GetNext(pos1);
-            pObj->GetWindowsHeight(WINDOWS_HEIGHT);
+            pObj->SetWindowsHeight(WINDOWS_HEIGHT);
             if (!pObj->Drop())
             {
                 pObj->m_Images.TransparentBlt(m_cacheDC, pObj->GetPoint().x, pObj->GetPoint().y, pObj->GetImagesWidth(), pObj->GetImagesHeight(), RGB(255, 255, 255));
@@ -228,8 +228,7 @@ void CChildView::AI()
             CPoint tPoint = m_hero->GetPoint();
             if (m_hero != NULL && m_hero->Fire())
             {
-                m_list[enBomb].AddTail(new MyBomb(tPoint.x + 5, tPoint.y - 5));
-                m_list[enBomb].AddTail(new MyBomb(tPoint.x + 25, tPoint.y - 5));
+                m_list[enBomb].AddTail(new MyBomb(tPoint.x + 15, tPoint.y - 5));
             }
 
         }
@@ -246,7 +245,7 @@ void CChildView::AI()
         }
     }
 
-    //导弹消灭敌机
+    //导弹击中敌机
     POSITION mPos1 = NULL, mPos2 = NULL;
     for (mPos1 = m_list[enBomb].GetHeadPosition(); (mPos2 = mPos1) != NULL;)
     {
@@ -260,12 +259,16 @@ void CChildView::AI()
                 pBomb->GetPoint().y < pEnemy->GetPoint().y + pEnemy->GetImagesHeight() &&
                 pBomb->GetPoint().y + pBomb->GetImagesHeight() > pEnemy->GetPoint().y)
             {
-                m_list[enExplosion].AddTail(new MyExplosion(pEnemy->GetPoint().x, pEnemy->GetPoint().y));
+                pEnemy->SetHp(pEnemy->GetHp() - 1);
+                if (pEnemy->GetHp() <= 0)
+                {
+                    m_list[enExplosion].AddTail(new MyExplosion(pEnemy->GetPoint().x, pEnemy->GetPoint().y));
 
-                PlaySound((LPCWSTR)IDR_EXOLOSIONENEMY, NULL, SND_ASYNC | SND_RESOURCE);
+                    PlaySound((LPCWSTR)IDR_EXOLOSIONENEMY, NULL, SND_ASYNC | SND_RESOURCE);
 
-                m_list[enEnemy].RemoveAt(ePos2);
-                delete pEnemy;
+                    m_list[enEnemy].RemoveAt(ePos2);
+                    delete pEnemy;
+                }
                 m_list[enBomb].RemoveAt(mPos2);
                 delete pBomb;
 
@@ -274,7 +277,7 @@ void CChildView::AI()
         }
     }
 
-    //飞机被敌机子弹消灭
+    //玩家被敌机子弹击中
     POSITION ePos1 = NULL, ePos2 = NULL;
     for (ePos1 = m_list[enEnemyBomb].GetHeadPosition(); (ePos2 = ePos1) != NULL;)
     {
@@ -284,19 +287,26 @@ void CChildView::AI()
             pEnemyBomb->GetPoint().y < m_hero->GetPoint().y + m_hero->GetImagesHeight() &&
             pEnemyBomb->GetPoint().y + pEnemyBomb->GetImagesHeight() > m_hero->GetPoint().y)
         {
-            m_list[enExplosion].AddTail(new MyExplosion(m_hero->GetPoint().x, m_hero->GetPoint().y));
             m_list[enEnemyBomb].RemoveAt(ePos2);
             delete pEnemyBomb;
-            m_hero = NULL;
-            delete m_hero;
+            //玩家掉血
+            m_hero->SetHp(m_hero->GetHp() - 1);
+            if (m_hero->GetHp() <= 0)
+            {
+                m_list[enExplosion].AddTail(new MyExplosion(m_hero->GetPoint().x, m_hero->GetPoint().y));
 
-            PlaySound((LPCWSTR)IDR_EXOLOSIONPLAYER, NULL, SND_ASYNC | SND_RESOURCE);
+                m_hero = NULL;
+                delete m_hero;
 
-            return;
+                PlaySound((LPCWSTR)IDR_EXOLOSIONPLAYER, NULL, SND_ASYNC | SND_RESOURCE);
+
+                return;
+            }
+            
         }
     }
 
-    //飞机被敌机撞上
+    //玩家被敌机撞上
 
     POSITION pos1 = NULL, pos2 = NULL;
     for (pos1 = m_list[enEnemy].GetHeadPosition(); (pos2 = pos1) != NULL;)
@@ -307,17 +317,31 @@ void CChildView::AI()
             pEnemy->GetPoint().y < m_hero->GetPoint().y + m_hero->GetImagesHeight() &&
             pEnemy->GetPoint().y + pEnemy->GetImagesHeight() > m_hero->GetPoint().y)
         {
-            m_list[enExplosion].AddTail(new MyExplosion(pEnemy->GetPoint().x, pEnemy->GetPoint().y));
-            m_list[enExplosion].AddTail(new MyExplosion(m_hero->GetPoint().x, m_hero->GetPoint().y));
-            m_list[enEnemy].RemoveAt(pos2);
-            delete pEnemy;
-            m_hero = NULL;
-            delete m_hero;
+            //设定为血多的减血少的
+            int tEnemy = pEnemy->GetHp(), tHero = m_hero->GetHp();
+            
+            //敌机掉血
+            pEnemy->SetHp(pEnemy->GetHp() - tHero);
+            if (pEnemy->GetHp() <= 0)
+            {
+                m_list[enExplosion].AddTail(new MyExplosion(pEnemy->GetPoint().x, pEnemy->GetPoint().y));
+                m_list[enEnemy].RemoveAt(pos2);
+                delete pEnemy;
+                PlaySound((LPCWSTR)IDR_EXOLOSIONENEMY, NULL, SND_ASYNC | SND_RESOURCE);
+            }
 
-            PlaySound((LPCWSTR)IDR_EXOLOSIONENEMY, NULL, SND_ASYNC | SND_RESOURCE);
-            PlaySound((LPCWSTR)IDR_EXOLOSIONPLAYER, NULL, SND_ASYNC | SND_RESOURCE);
+            m_hero->SetHp(m_hero->GetHp() - tEnemy);
+            if (m_hero->GetHp() <= 0)
+            {
+                m_list[enExplosion].AddTail(new MyExplosion(m_hero->GetPoint().x, m_hero->GetPoint().y));
+                m_hero = NULL;
+                delete m_hero;
 
-            return;
+                PlaySound((LPCWSTR)IDR_EXOLOSIONPLAYER, NULL, SND_ASYNC | SND_RESOURCE);
+            
+                return;
+            }
+
         }
     }
 

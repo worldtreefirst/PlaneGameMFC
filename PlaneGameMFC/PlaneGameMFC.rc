@@ -87,7 +87,7 @@ IDB_ENEMY1              BITMAP                  "res\\picture\\Enemy1.bmp"
 IDB_ENEMY2              BITMAP                  "res\\picture\\Enemy2.bmp"
 IDB_ENEMY3              BITMAP                  "res\\picture\\Enemy3.bmp"
 IDB_ENEMYBOMB           BITMAP                  "res\\picture\\EnemyBomb.bmp"
-IDB_BOMB1               BITMAP                  "res\\picture\\Bomb.bmp"
+IDB_BOMB1               BITMAP                  "res\\picture\\Bomb1.bmp"
 IDB_EXP                 BITMAP                  "res\\picture\\ExplosionEnemy.bmp"
 
 /////////////////////////////////////////////////////////////////////////////
@@ -125,17 +125,9 @@ BEGIN
     BEGIN
         MENUITEM "退出(&X)",                      ID_APP_EXIT
     END
-    POPUP "编辑(&E)"
-    BEGIN
-        MENUITEM "撤消(&U)\tCtrl+Z",              ID_EDIT_UNDO
-        MENUITEM SEPARATOR
-        MENUITEM "剪切(&T)\tCtrl+X",              ID_EDIT_CUT
-        MENUITEM "复制(&C)\tCtrl+C",              ID_EDIT_COPY
-        MENUITEM "粘贴(&P)\tCtrl+V",              ID_EDIT_PASTE
-    END
     POPUP "帮助(&H)"
     BEGIN
-        MENUITEM "关于 PlaneGameMFC(&A)...",      ID_APP_ABOUT
+        MENUITEM "关于 飞机大战(&A)...",              ID_APP_ABOUT
     END
 END
 
@@ -189,15 +181,17 @@ END
 // Dialog
 //
 
-IDD_ABOUTBOX DIALOGEX 0, 0, 170, 62
+IDD_ABOUTBOX DIALOGEX 0, 0, 164, 84
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "关于 PlaneGameMFC"
 FONT 9, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    ICON            IDR_MAINFRAME,IDC_STATIC,14,14,21,20
-    LTEXT           "PlaneGameMFC，1.0 版",IDC_STATIC,42,14,114,8,SS_NOPREFIX
-    LTEXT           "Copyright (C) 2015",IDC_STATIC,42,26,114,8
-    DEFPUSHBUTTON   "确定",IDOK,113,41,50,14,WS_GROUP
+    ICON            IDR_MAINFRAME,IDC_STATIC,14,14,20,20
+    LTEXT           "飞机大战 v1.0",IDC_STATIC,39,14,48,8,SS_NOPREFIX
+    DEFPUSHBUTTON   "确定",IDOK,107,63,50,14,WS_GROUP
+    LTEXT           "By ",IDC_STATIC,55,25,59,8
+    LTEXT           "---ZmiL      2015",IDC_STATIC,65,34,65,9
+    LTEXT           "xuziye0327@gmail.com",IDC_STATIC,41,51,73,9
 END
 
 
@@ -251,9 +245,9 @@ BEGIN
     IDD_ABOUTBOX, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 163
+        RIGHTMARGIN, 157
         TOPMARGIN, 7
-        BOTTOMMARGIN, 55
+        BOTTOMMARGIN, 77
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -264,17 +258,16 @@ END
 // MP3
 //
 
-IDR_BGMUSIC                MP3                     "res\\music\\bgmusic.mp3"
-
+IDR_BGMUSIC             MP3                     "res\\music\\bgmusic.mp3"
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// WAVE 
+// WAVE
 //
 
-IDR_SHOOT                   WAVE                   "res\\music\\Shoot.wav"
-IDR_EXOLOSIONENEMY          WAVE                   "res\\music\\ExplosionEnemy.wav"
-IDR_EXOLOSIONPLAYER         WAVE                   "res\\music\\ExplosionPlayer.wav"
+IDR_SHOOT               WAVE                    "res\\music\\Shoot.wav"
+IDR_EXOLOSIONENEMY      WAVE                    "res\\music\\ExplosionEnemy.wav"
+IDR_EXOLOSIONPLAYER     WAVE                    "res\\music\\ExplosionPlayer.wav"
 
 /////////////////////////////////////////////////////////////////////////////
 //

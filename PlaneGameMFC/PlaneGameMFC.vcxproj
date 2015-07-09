@@ -134,6 +134,13 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\picture\background.bmp" />
+    <Image Include="res\picture\Bomb1.bmp" />
+    <Image Include="res\picture\Enemy1.bmp" />
+    <Image Include="res\picture\Enemy2.bmp" />
+    <Image Include="res\picture\Enemy3.bmp" />
+    <Image Include="res\picture\EnemyBomb.bmp" />
+    <Image Include="res\picture\ExplosionEnemy.bmp" />
+    <Image Include="res\picture\Plane.bmp" />
     <Image Include="res\PlaneGameMFC.ico" />
     <Image Include="res\Toolbar.bmp" />
     <Image Include="res\Toolbar256.bmp" />
@@ -144,6 +151,9 @@
   </ItemGroup>
   <ItemGroup>
     <Media Include="res\music\bgmusic.mp3" />
+    <Media Include="res\music\ExplosionEnemy.wav" />
+    <Media Include="res\music\ExplosionPlayer.wav" />
+    <Media Include="res\music\Shoot.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

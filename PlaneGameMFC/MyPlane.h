@@ -6,8 +6,6 @@ class MyPlane :
 public:
     void updatePoint();
 
-    int GetPointX();
-    int GetPointY();
     int GetMove() const;
     int GetFire() const;
     int GetHorMotion() const;
