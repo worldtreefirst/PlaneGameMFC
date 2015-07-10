@@ -89,7 +89,8 @@ BOOL CChildView::PreCreateWindow(CREATESTRUCT& cs)
     TCHAR mcicmd[300];
     _stprintf_s(mcicmd, _T("open \"%s\" alias mymusic"), tmpmp3);
     mciSendString(mcicmd, NULL, 0, NULL);
-    mciSendString(_T("play mymusic"), NULL, 0, NULL);
+    mciSendString(_T("setaudio mymusic volume to 1000"), NULL, 0, NULL);
+    mciSendString(_T("play mymusic repeat"), NULL, 0, NULL);
 
     return TRUE;
 }
@@ -161,7 +162,7 @@ void CChildView::Running()
             if (!pObj->Drop())
             {
                 pObj->m_Images.TransparentBlt(m_cacheDC, pObj->GetPoint().x, pObj->GetPoint().y, pObj->GetImagesWidth(), pObj->GetImagesHeight(), RGB(255, 255, 255));
-                pObj->SetPoint(pObj->GetPoint().x, pObj->GetPoint().y + pObj->GetMove());
+                pObj->SetPoint(pObj->GetPoint().x + pObj->GetMoveX(), pObj->GetPoint().y + pObj->GetMoveY());
             }
             else
             {
@@ -186,7 +187,7 @@ void CChildView::Running()
         MyExplosion* pExp = (MyExplosion*)m_list[enExplosion].GetNext(pos1);
         if (!pExp->Drop())
         {
-            pExp->m_Images.TransparentBlt(m_cacheDC, pExp->GetPoint().x, pExp->GetPoint().y, 60, 60, 44 * pExp->GetMove(), 0, 43, 49, RGB(255, 255, 255));
+            pExp->m_Images.TransparentBlt(m_cacheDC, pExp->GetPoint().x, pExp->GetPoint().y, 60, 60, 44 * pExp->GetMoveX(), 0, 43, 49, RGB(255, 255, 255));
             pExp->UpDateStates();
         }
         else
@@ -237,11 +238,7 @@ void CChildView::AI()
         //产生导弹
         if (GetKey(VK_SPACE))
         {
-            CPoint tPoint = m_hero->GetPoint();
-            if (m_hero != NULL && m_hero->Fire())
-            {
-                m_list[enBomb].AddTail(new MyBomb(tPoint.x + 15, tPoint.y - 5));
-            }
+            if (m_hero != NULL && m_hero->Fire()) { BombLevel(m_hero->GetBombLevel()); }
 
         }
     }
@@ -271,7 +268,7 @@ void CChildView::AI()
                 pBomb->GetPoint().y < pEnemy->GetPoint().y + pEnemy->GetImagesHeight() &&
                 pBomb->GetPoint().y + pBomb->GetImagesHeight() > pEnemy->GetPoint().y)
             {
-                pEnemy->SetHp(pEnemy->GetHp() - 1);
+                pEnemy->SetHp(pEnemy->GetHp() - pBomb->GetDamage());
                 if (pEnemy->GetHp() <= 0)
                 {
                     m_list[enExplosion].AddTail(new MyExplosion(pEnemy->GetPoint().x, pEnemy->GetPoint().y));
@@ -303,6 +300,8 @@ void CChildView::AI()
             delete pEnemyBomb;
             //玩家掉血
             m_hero->SetHp(m_hero->GetHp() - 1);
+            //玩家武器降级
+            m_hero->SetBombLevel(max(1, m_hero->GetBombLevel() - 1));
             if (m_hero->GetHp() <= 0)
             {
                 m_list[enExplosion].AddTail(new MyExplosion(m_hero->GetPoint().x, m_hero->GetPoint().y));
@@ -342,7 +341,10 @@ void CChildView::AI()
                 PlaySound((LPCWSTR)IDR_EXOLOSIONENEMY, NULL, SND_ASYNC | SND_RESOURCE);
             }
 
+            //玩家掉血
             m_hero->SetHp(m_hero->GetHp() - tEnemy);
+            //玩家子弹降级
+            m_hero->SetBombLevel(max(1, m_hero->GetBombLevel() - tEnemy));
             if (m_hero->GetHp() <= 0)
             {
                 m_list[enExplosion].AddTail(new MyExplosion(m_hero->GetPoint().x, m_hero->GetPoint().y));
@@ -411,6 +413,30 @@ void CChildView::OnTimer(UINT_PTR nIDEvent)
         m_list[enEnemy].AddTail(new MyEnemy(rand() % (min(PAGE_WIDTH, WINDOWS_WIDTH) - 60), -60, rand() % 5 + 1));
         break;
     default:
+        break;
+    }
+}
+
+void CChildView::BombLevel(int l)
+{
+    CPoint tPoint = m_hero->GetPoint();
+    switch (l)
+    {
+    case 1:
+        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 15, tPoint.y - 5, 1));
+        break;
+    case 2:
+        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 15, tPoint.y - 5, 2));
+        break;
+    case 3:
+        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 15, tPoint.y - 5, 2));
+        m_list[enBomb].AddTail(new MyBomb(tPoint.x -  5, tPoint.y    , 1));
+        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 45, tPoint.y    , 1));
+        break;
+    default:
+        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 15, tPoint.y - 5, 2));
+        m_list[enBomb].AddTail(new MyBomb(tPoint.x - 15, tPoint.y,     2));
+        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 45, tPoint.y,     2));
         break;
     }
 }

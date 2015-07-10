@@ -7,7 +7,8 @@ class MyEnemy :
 public:
     int GetPointX();
     int GetPointY();
-    int GetMove() const;
+    int GetMoveX() const;
+    int GetMoveY() const;
     void GetWindowsHeight(int x);
     BOOL Drop();
     BOOL Fire();
@@ -22,7 +23,6 @@ public:
 private:
     int lFire;
     int nFire;
-    int planeV;
     int planeType;
 };
 

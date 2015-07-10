@@ -88,6 +88,7 @@ IDB_ENEMY2              BITMAP                  "res\\picture\\Enemy2.bmp"
 IDB_ENEMY3              BITMAP                  "res\\picture\\Enemy3.bmp"
 IDB_ENEMYBOMB           BITMAP                  "res\\picture\\EnemyBomb.bmp"
 IDB_BOMB1               BITMAP                  "res\\picture\\Bomb1.bmp"
+IDB_BOMB2               BITMAP                  "res\\picture\\Bomb2.bmp"
 IDB_EXP                 BITMAP                  "res\\picture\\ExplosionEnemy.bmp"
 IDB_MYHEROHP            BITMAP                  "res\\picture\\HeroHp.bmp"
 

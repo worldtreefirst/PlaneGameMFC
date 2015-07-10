@@ -5,7 +5,8 @@ class MyHpStrip :
 {
 public:
     BOOL Drop();
-    int GetMove() const;
+    int GetMoveX() const;
+    int GetMoveY() const;
 
 public:
     MyHpStrip();

@@ -5,6 +5,9 @@
 
 MyPlane::MyPlane() : MyGameObject(250, 550, 10000000)
 {
+    SetMoveX(0);
+    SetMoveY(0);
+    SetBombLevel(4);
     imagesWidth = 60;
     imagesHeight = 60;
     nFire = 0;
@@ -14,29 +17,15 @@ MyPlane::MyPlane() : MyGameObject(250, 550, 10000000)
 }
 
 
-MyPlane::~MyPlane()
-{
-}
+MyPlane::~MyPlane() { }
 
-int MyPlane::GetVerMotion() const
-{
-    return m_nVerMotion;
-}
+int MyPlane::GetVerMotion() const { return m_nVerMotion; }
 
-int MyPlane::GetHorMotion() const
-{
-    return m_nHorMotion;
-}
+int MyPlane::GetHorMotion() const { return m_nHorMotion; }
 
-void MyPlane::SetHorMotion(int nMotion)
-{
-    m_nHorMotion = nMotion;
-}
+void MyPlane::SetHorMotion(int nMotion) { m_nHorMotion = nMotion; }
 
-void MyPlane::SetVerMotion(int nMotion)
-{
-    m_nVerMotion = nMotion;
-}
+void MyPlane::SetVerMotion(int nMotion) { m_nVerMotion = nMotion; }
 
 
 void MyPlane::updatePoint()
@@ -62,17 +51,10 @@ BOOL MyPlane::Fire()
     return FALSE;
 }
 
-int MyPlane::GetFire() const
-{
-    return nFire;
-}
+int MyPlane::GetFire() const { return nFire; }
 
-int MyPlane::GetMove() const
-{
-    return 0;
-}
+int MyPlane::GetMoveX() const { return moveX; }
 
-BOOL MyPlane::Drop()
-{
-    return TRUE;
-}
+int MyPlane::GetMoveY() const { return moveY; }
+
+BOOL MyPlane::Drop() { return TRUE; }

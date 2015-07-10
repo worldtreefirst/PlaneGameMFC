@@ -5,7 +5,8 @@ class MyEnemyBomb :
 {
 public:
     BOOL Drop();
-    int GetMove() const;
+    int GetMoveX() const;
+    int GetMoveY() const;
     void GetWindowsHeight(int x);
 
 public:

@@ -31,6 +31,7 @@ protected:
     int GetKey(int nVirtKey);
     void AI();
     void Running();
+    void BombLevel(int l);
 
 private:
     int bg_pos;

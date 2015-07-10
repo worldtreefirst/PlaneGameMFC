@@ -5,7 +5,8 @@ class MyExplosion :
 {
 public:
     BOOL Drop();
-    int GetMove() const;
+    int GetMoveX() const;
+    int GetMoveY() const;
     void UpDateStates();
 
 public:

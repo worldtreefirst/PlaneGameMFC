@@ -39,9 +39,10 @@
 #define IDB_ENEMY2                      324
 #define IDB_ENEMY3                      325
 #define IDB_BOMB1                       326
-#define IDB_ENEMYBOMB                   327
-#define IDB_EXP                         328
-#define IDB_MYHEROHP                    329
+#define IDB_BOMB2                       327
+#define IDB_ENEMYBOMB                   328
+#define IDB_EXP                         329
+#define IDB_MYHEROHP                    330
 
 // Next default values for new objects
 // 

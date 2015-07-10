@@ -10,9 +10,7 @@ MyExplosion::MyExplosion(int x, int y) : MyGameObject(x, y)
     m_Images.LoadFromResource(AfxGetInstanceHandle(), IDB_EXP);
 }
 
-MyExplosion::~MyExplosion()
-{
-}
+MyExplosion::~MyExplosion() { }
 
 BOOL MyExplosion::Drop()
 {
@@ -20,10 +18,9 @@ BOOL MyExplosion::Drop()
     return FALSE;
 }
 
-int MyExplosion::GetMove() const
-{
-    return nStates;
-}
+int MyExplosion::GetMoveX() const { return nStates; }
+
+int MyExplosion::GetMoveY() const { return nStates; }
 
 void MyExplosion::UpDateStates()
 {

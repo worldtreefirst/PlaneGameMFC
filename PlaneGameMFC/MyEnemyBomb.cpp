@@ -4,21 +4,20 @@
 
 MyEnemyBomb::MyEnemyBomb(int x, int y) : MyGameObject(x, y)
 {
+    SetDamage(1);
     imagesWidth = 10;
     imagesHeight = 20;
     m_Images.LoadFromResource(AfxGetInstanceHandle(), IDB_ENEMYBOMB);
-    BombV = 10;
+    moveX = 0;
+    moveY = 10;
 }
 
 
-MyEnemyBomb::~MyEnemyBomb()
-{
-}
+MyEnemyBomb::~MyEnemyBomb() { }
 
-int MyEnemyBomb::GetMove() const
-{
-    return BombV;
-}
+int MyEnemyBomb::GetMoveX() const { return moveX; }
+
+int MyEnemyBomb::GetMoveY() const { return moveY; }
 
 BOOL MyEnemyBomb::Drop()
 {

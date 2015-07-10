@@ -7,6 +7,7 @@ MyEnemy::MyEnemy(int x, int y, int h) : MyGameObject(x, y, h)
     imagesWidth = 60;
     imagesHeight = 60;
     windowsHeight = 0;
+    SetDamage(h);
     srand((unsigned)time(NULL));
     for (int i = 0; i < rand() % 5; i++) srand((unsigned)time(NULL));;
     planeType = rand() % 3 + 1;
@@ -24,27 +25,21 @@ MyEnemy::MyEnemy(int x, int y, int h) : MyGameObject(x, y, h)
     }
     lFire = rand() % 50 + 50;
     nFire = rand() % lFire + 1;
-    planeV = rand() % 5 + 3;
+    moveX = 0;
+    moveY = rand() % 5 + 3;
     enemyHp = new MyHpStrip;
 }
 
 
-MyEnemy::~MyEnemy()
-{
-    delete enemyHp;
-}
+MyEnemy::~MyEnemy() { delete enemyHp; }
 
-int MyEnemy::GetMove() const
-{
-    return planeV;
-}
+int MyEnemy::GetMoveX() const { return moveX; }
 
-void MyEnemy::GetWindowsHeight(int x)
-{
-    windowsHeight = x;
-}
+int MyEnemy::GetMoveY() const { return moveY; }
 
-BOOL MyEnemy::Drop()
+void MyEnemy::GetWindowsHeight(int x) { windowsHeight = x; }
+
+BOOL MyEnemy::Drop() 
 {
     if (nFire) nFire++;
     if (nFire > lFire) nFire = 0;
