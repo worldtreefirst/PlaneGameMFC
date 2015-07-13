@@ -110,11 +110,6 @@ BOOL CMFCPlaneGameApp::InitInstance()
     pFrame->LoadFrame(IDR_MAINFRAME,
         WS_OVERLAPPEDWINDOW | FWS_ADDTOTITLE, NULL,
         NULL);
-
-
-
-
-
     // 唯一的一个窗口已初始化，因此显示它并对其进行更新
     pFrame->SetWindowPos(NULL, 0, 0, 567, 900, SWP_NOMOVE);
     pFrame->ShowWindow(SW_SHOW);
@@ -149,6 +144,8 @@ protected:
     // 实现
 protected:
     DECLARE_MESSAGE_MAP()
+public:
+    afx_msg void OnBnClickedOk();
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(CAboutDlg::IDD)
@@ -161,6 +158,7 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
+    ON_BN_CLICKED(IDOK, &CAboutDlg::OnBnClickedOk)
 END_MESSAGE_MAP()
 
 // 用于运行对话框的应用程序命令
@@ -192,4 +190,8 @@ void CMFCPlaneGameApp::SaveCustomState()
 // CMFCPlaneGameApp 消息处理程序
 
 
-
+void CAboutDlg::OnBnClickedOk()
+{
+    // TODO:  在此添加控件通知处理程序代码
+    CDialogEx::OnOK();
+}

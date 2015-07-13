@@ -4,13 +4,12 @@
 #include "mmsystem.h"
 #pragma comment(lib, "Winmm.lib")
 
-MyBomb::MyBomb(int x, int y, int l) :MyGameObject(x, y)
+MyBomb::MyBomb(int x, int y, int l, int mx, int my) :MyGameObject(x, y)
 {
-    SetMoveX(0);
     SetDamage(l);
-    SetMoveY(-10);
-    SetBombLevel(l);
-    switch (GetBombLevel())
+    SetMoveX(mx);
+    SetMoveY(my);
+    switch (l)
     {
     case 1:
         imagesWidth = 20;
@@ -22,16 +21,22 @@ MyBomb::MyBomb(int x, int y, int l) :MyGameObject(x, y)
         imagesHeight = 40;
         m_Images.LoadFromResource(AfxGetInstanceHandle(), IDB_BOMB2);
         break;
+    case 3:
+        imagesWidth = 40;
+        imagesHeight = 50;
+        m_Images.LoadFromResource(AfxGetInstanceHandle(), IDB_BOMB3);
+        break;
+    default:
+        imagesWidth = 40;
+        imagesHeight = 50;
+        m_Images.LoadFromResource(AfxGetInstanceHandle(), IDB_BOMB3);
+        break;
     }
 
     PlaySound((LPCWSTR)IDR_SHOOT, NULL, SND_ASYNC | SND_RESOURCE);
 }
 
 MyBomb::~MyBomb() { }
-
-int MyBomb::GetMoveX() const { return moveX; }
-
-int MyBomb::GetMoveY() const { return moveY; }
 
 void MyBomb::GetWindowsHeight(int x) { windowsHeight = x; }
 
@@ -40,3 +45,5 @@ BOOL MyBomb::Drop()
     if (GetPoint().y + BOMB_HEIGHT < 0) return TRUE;
     return FALSE;
 }
+
+int MyBomb::BombLevel = 1;

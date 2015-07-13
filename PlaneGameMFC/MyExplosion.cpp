@@ -18,11 +18,6 @@ BOOL MyExplosion::Drop()
     return FALSE;
 }
 
-int MyExplosion::GetMoveX() const { return nStates; }
+void MyExplosion::UpDateStates() { nStates++; }
 
-int MyExplosion::GetMoveY() const { return nStates; }
-
-void MyExplosion::UpDateStates()
-{
-    nStates++;
-}
+int MyExplosion::GetStates() const { return nStates; }

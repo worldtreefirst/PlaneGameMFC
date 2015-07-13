@@ -4,6 +4,7 @@
 
 #include "stdafx.h"
 #include "PlaneGameMFC.h"
+#include "MyBeginDialog.h"
 
 #include "MainFrm.h"
 
@@ -52,8 +53,9 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
         return -1;
     }
 
+    MyBeginDialog b;
+    b.DoModal();
     //SetMenu(NULL);
-
     return 0;
 }
 

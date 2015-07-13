@@ -2,12 +2,14 @@
 #include "MyEnemy.h"
 #include "resource.h"
 
-MyEnemy::MyEnemy(int x, int y, int h) : MyGameObject(x, y, h)
+MyEnemy::MyEnemy(int x, int y, int h, int d) : MyGameObject(x, y)
 {
     imagesWidth = 60;
     imagesHeight = 60;
     windowsHeight = 0;
-    SetDamage(h);
+    SetHp(h);
+    SetMaxHp(h);
+    SetDamage(d);
     srand((unsigned)time(NULL));
     for (int i = 0; i < rand() % 5; i++) srand((unsigned)time(NULL));;
     planeType = rand() % 3 + 1;
@@ -32,10 +34,6 @@ MyEnemy::MyEnemy(int x, int y, int h) : MyGameObject(x, y, h)
 
 
 MyEnemy::~MyEnemy() { delete enemyHp; }
-
-int MyEnemy::GetMoveX() const { return moveX; }
-
-int MyEnemy::GetMoveY() const { return moveY; }
 
 void MyEnemy::GetWindowsHeight(int x) { windowsHeight = x; }
 

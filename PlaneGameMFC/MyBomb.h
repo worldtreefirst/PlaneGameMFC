@@ -6,12 +6,11 @@ class MyBomb :
 public:
     BOOL Drop();
     CRect GetRect();
-    int  GetMoveX() const;
-    int  GetMoveY() const;
     void GetWindowsHeight(int x);
 
 public:
-    MyBomb(int x, int y, int l);
+    static int BombLevel;
+    MyBomb(int x, int y, int l, int mx, int my);
     ~MyBomb();
 private:
     int damage;

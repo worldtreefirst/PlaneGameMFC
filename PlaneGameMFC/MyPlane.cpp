@@ -3,11 +3,10 @@
 #include "resource.h"
 
 
-MyPlane::MyPlane() : MyGameObject(250, 550, 10000000)
+MyPlane::MyPlane() : MyGameObject(250, 550)
 {
     SetMoveX(0);
     SetMoveY(0);
-    SetBombLevel(4);
     imagesWidth = 60;
     imagesHeight = 60;
     nFire = 0;
@@ -51,10 +50,9 @@ BOOL MyPlane::Fire()
     return FALSE;
 }
 
-int MyPlane::GetFire() const { return nFire; }
-
-int MyPlane::GetMoveX() const { return moveX; }
-
-int MyPlane::GetMoveY() const { return moveY; }
+int MyPlane:: GetFire() const { return nFire; }
 
 BOOL MyPlane::Drop() { return TRUE; }
+
+int MyPlane::HeroHp = -1;
+int MyPlane::HeroMaxHp = -1;

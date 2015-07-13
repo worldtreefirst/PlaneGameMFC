@@ -57,6 +57,9 @@
     <ClInclude Include="MyHpStrip.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="MyBeginDialog.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlaneGameMFC.cpp">
@@ -90,6 +93,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="MyHpStrip.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="MyBeginDialog.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -136,6 +142,12 @@
       <Filter>资源文件</Filter>
     </Image>
     <Image Include="res\picture\HeroHp.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\picture\Bomb2.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\picture\Bomb3.bmp">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>

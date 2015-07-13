@@ -103,6 +103,7 @@
   <ItemGroup>
     <ClInclude Include="ChildView.h" />
     <ClInclude Include="MainFrm.h" />
+    <ClInclude Include="MyBeginDialog.h" />
     <ClInclude Include="MyBomb.h" />
     <ClInclude Include="MyEnemy.h" />
     <ClInclude Include="MyEnemyBomb.h" />
@@ -118,6 +119,7 @@
   <ItemGroup>
     <ClCompile Include="ChildView.cpp" />
     <ClCompile Include="MainFrm.cpp" />
+    <ClCompile Include="MyBeginDialog.cpp" />
     <ClCompile Include="MyBomb.cpp" />
     <ClCompile Include="MyEnemy.cpp" />
     <ClCompile Include="MyEnemyBomb.cpp" />
@@ -137,6 +139,8 @@
   <ItemGroup>
     <Image Include="res\picture\background.bmp" />
     <Image Include="res\picture\Bomb1.bmp" />
+    <Image Include="res\picture\Bomb2.bmp" />
+    <Image Include="res\picture\Bomb3.bmp" />
     <Image Include="res\picture\Enemy1.bmp" />
     <Image Include="res\picture\Enemy2.bmp" />
     <Image Include="res\picture\Enemy3.bmp" />

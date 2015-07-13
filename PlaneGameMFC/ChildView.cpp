@@ -13,6 +13,7 @@
 #include "MyHpStrip.h"
 #include "MyEnemyBomb.h"
 #include "MyExplosion.h"
+#include "MyBeginDialog.h"
 
 #include "mmsystem.h"
 #pragma comment(lib, "Winmm.lib")
@@ -36,6 +37,10 @@
 #define _PLANE__
 #define PLANE_WIDTH 60
 #define PLANE_HEIGHE 60
+#define HERO_HP MyPlane::HeroHp
+#define HERO_MAX_HP MyPlane::HeroMaxHp
+#define BOMB_LEVEL MyBomb::BombLevel
+#define HEARD_LEVEL MyGameObject::HardLevel
 #endif
 
 #ifdef _DEBUG
@@ -80,6 +85,9 @@ BOOL CChildView::PreCreateWindow(CREATESTRUCT& cs)
     m_hero = new MyPlane;
     m_herohp = new MyHpStrip;
 
+    //初始化得分
+    point = 0;
+
     //加载音乐资源
     TCHAR tmpmp3[_MAX_PATH];
     ::GetTempPath(_MAX_PATH, tmpmp3);
@@ -98,28 +106,36 @@ BOOL CChildView::PreCreateWindow(CREATESTRUCT& cs)
 void CChildView::OnPaint()
 {
     //CPaintDC dc(this); // 用于绘制的设备上下文
-
+    CPaintDC dc(this);
     CDC *cDC = this->GetDC();
     GetClientRect(&m_client);
     m_cacheDC.CreateCompatibleDC(NULL);
     m_cacheBitmap.CreateCompatibleBitmap(cDC, WINDOWS_WIDTH, WINDOWS_HEIGHT);
     m_cacheDC.SelectObject(&m_cacheBitmap);
+    m_cacheDC.SetBkMode(TRANSPARENT);
 
+    CFont font;
+    CFont* pOldFont = &font;
 
     //贴背景
     Running();
     AI();
 
-    //--------------测试程序---------------
-
-    /*tCString1.Format(_T("%d"), tExp.m_Images.GetHeight());
-    tCString2.Format(_T("%d"), tExp.m_Images.GetWidth());
-    tCString3.Format(_T("%d"), m_list[enExplosion].GetCount());
-    TextOut(m_cacheDC, 0, 0, tCString1, tCString1.GetLength());
-    TextOut(m_cacheDC, 0, 15, tCString2, tCString2.GetLength());
-    TextOut(m_cacheDC, 0, 30, tCString3, tCString3.GetLength());*/
-
-    //--------------测试结束---------------
+    //状态面板
+    font.CreateFont(25, 15, 0, 0, FW_NORMAL, FALSE, FALSE, 0, ANSI_CHARSET, OUT_DEFAULT_PRECIS, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, _T("微软雅黑"));
+    m_cacheDC.SelectObject(&font);
+    m_cacheDC.SetTextColor(RGB(0, 255, 0)); 
+    CString tCString1, tCString2, tCString3, tCString4;
+    CString cCString[100];
+    cCString[0].Format(_T("生命值：%d"), HERO_HP);
+    cCString[1].Format(_T("战机等级：%d"), BOMB_LEVEL);
+    cCString[2].Format(_T("难度等级：%d"), HEARD_LEVEL);
+    cCString[3].Format(_T("得分：%d"), point);
+    for (int i = 0; i < 4; i++)
+    {
+        TextOut(m_cacheDC, 0, i * 25, cCString[i], cCString[i].GetLength());
+    }
+    m_cacheDC.SelectObject(pOldFont);
 
     cDC->BitBlt(0, 0, WINDOWS_WIDTH, WINDOWS_HEIGHT, &m_cacheDC, 0, 0, SRCCOPY);
 
@@ -142,13 +158,16 @@ void CChildView::Running()
     if (m_hero != NULL)
     {
         m_hero->m_Images.TransparentBlt(m_cacheDC, m_hero->GetPoint().x, m_hero->GetPoint().y, PLANE_WIDTH, PLANE_HEIGHE, 0, 0, m_hero->m_Images.GetWidth(), m_hero->m_Images.GetHeight(), RGB(255, 255, 255));
-        m_herohp->m_Images.Draw(m_cacheDC, m_hero->GetPoint().x, m_hero->GetPoint().y - 20, PLANE_WIDTH * m_hero->GetHp() / m_hero->GetMaxHp(), 10, 0, 0, PLANE_WIDTH, PLANE_HEIGHE);
-
+        m_herohp->m_Images.Draw(m_cacheDC, m_hero->GetPoint().x, m_hero->GetPoint().y - 20, PLANE_WIDTH * HERO_HP / HERO_MAX_HP, 10, 0, 0, PLANE_WIDTH, PLANE_HEIGHE);
     }
     else
     {
+        CFont font;
         CString str = _T("Game Over!");
-        TextOut(m_cacheDC, 0, 0, str, str.GetLength());
+        font.CreateFont(25, 25, 0, 0, FW_NORMAL, FALSE, FALSE, 0, ANSI_CHARSET, OUT_DEFAULT_PRECIS, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, _T("微软雅黑"));
+        m_cacheDC.SetTextColor(RGB(255, 0, 0));
+        m_cacheDC.SelectObject(font);
+        TextOut(m_cacheDC, m_client.Width() / 2 - 125, m_client.Height() / 2 - 100, str, str.GetLength());
     }
 
     //画导弹, 敌机， 敌机子弹
@@ -170,10 +189,10 @@ void CChildView::Running()
                 delete pObj;
             }
         }
+
     }
 
     //画敌机血条
-
     for (POSITION pos = m_list[enEnemy].GetHeadPosition(); pos != NULL;)
     {
         MyEnemy* pEnemy = (MyEnemy*)m_list[enEnemy].GetNext(pos);
@@ -187,7 +206,7 @@ void CChildView::Running()
         MyExplosion* pExp = (MyExplosion*)m_list[enExplosion].GetNext(pos1);
         if (!pExp->Drop())
         {
-            pExp->m_Images.TransparentBlt(m_cacheDC, pExp->GetPoint().x, pExp->GetPoint().y, 60, 60, 44 * pExp->GetMoveX(), 0, 43, 49, RGB(255, 255, 255));
+            pExp->m_Images.TransparentBlt(m_cacheDC, pExp->GetPoint().x, pExp->GetPoint().y, 60, 60, 44 * pExp->GetStates(), 0, 43, 49, RGB(255, 255, 255));
             pExp->UpDateStates();
         }
         else
@@ -196,7 +215,6 @@ void CChildView::Running()
             delete pExp;
         }
     }
-
 }
 
 
@@ -238,7 +256,7 @@ void CChildView::AI()
         //产生导弹
         if (GetKey(VK_SPACE))
         {
-            if (m_hero != NULL && m_hero->Fire()) { BombLevel(m_hero->GetBombLevel()); }
+            if (m_hero != NULL && m_hero->Fire()) { BombLevel(MyBomb::BombLevel); }
 
         }
     }
@@ -250,7 +268,7 @@ void CChildView::AI()
         BOOL FIRE = rand() % 2;
         if (FIRE && pEnemy->Fire())
         {
-            m_list[enEnemyBomb].AddTail(new MyEnemyBomb(pEnemy->GetPoint().x + 25, pEnemy->GetPoint().y + 60));
+            m_list[enEnemyBomb].AddTail(new MyEnemyBomb(pEnemy->GetPoint().x + 25, pEnemy->GetPoint().y + 60, pEnemy->GetDamage() * HEARD_LEVEL));
         }
     }
 
@@ -268,9 +286,14 @@ void CChildView::AI()
                 pBomb->GetPoint().y < pEnemy->GetPoint().y + pEnemy->GetImagesHeight() &&
                 pBomb->GetPoint().y + pBomb->GetImagesHeight() > pEnemy->GetPoint().y)
             {
+                
+                //敌机掉血
                 pEnemy->SetHp(pEnemy->GetHp() - pBomb->GetDamage());
                 if (pEnemy->GetHp() <= 0)
                 {
+                    //玩家得分
+                    point += HEARD_LEVEL * pEnemy->GetMaxHp();
+
                     m_list[enExplosion].AddTail(new MyExplosion(pEnemy->GetPoint().x, pEnemy->GetPoint().y));
 
                     PlaySound((LPCWSTR)IDR_EXOLOSIONENEMY, NULL, SND_ASYNC | SND_RESOURCE);
@@ -296,14 +319,17 @@ void CChildView::AI()
             pEnemyBomb->GetPoint().y < m_hero->GetPoint().y + m_hero->GetImagesHeight() &&
             pEnemyBomb->GetPoint().y + pEnemyBomb->GetImagesHeight() > m_hero->GetPoint().y)
         {
+            //玩家掉血
+            HERO_HP -= pEnemyBomb->GetDamage();
+            //玩家武器降级
+            BOMB_LEVEL = max(1, BOMB_LEVEL - pEnemyBomb->GetDamage());
+
             m_list[enEnemyBomb].RemoveAt(ePos2);
             delete pEnemyBomb;
-            //玩家掉血
-            m_hero->SetHp(m_hero->GetHp() - 1);
-            //玩家武器降级
-            m_hero->SetBombLevel(max(1, m_hero->GetBombLevel() - 1));
-            if (m_hero->GetHp() <= 0)
+             
+            if (HERO_HP <= 0)
             {
+                HERO_HP = 0;
                 m_list[enExplosion].AddTail(new MyExplosion(m_hero->GetPoint().x, m_hero->GetPoint().y));
 
                 m_hero = NULL;
@@ -328,11 +354,12 @@ void CChildView::AI()
             pEnemy->GetPoint().y < m_hero->GetPoint().y + m_hero->GetImagesHeight() &&
             pEnemy->GetPoint().y + pEnemy->GetImagesHeight() > m_hero->GetPoint().y)
         {
+
             //设定为血多的减血少的
-            int tEnemy = pEnemy->GetHp(), tHero = m_hero->GetHp();
+            int tEnemy = pEnemy->GetHp();
             
             //敌机掉血
-            pEnemy->SetHp(pEnemy->GetHp() - tHero);
+            pEnemy->SetHp(pEnemy->GetHp() - HERO_HP);
             if (pEnemy->GetHp() <= 0)
             {
                 m_list[enExplosion].AddTail(new MyExplosion(pEnemy->GetPoint().x, pEnemy->GetPoint().y));
@@ -342,19 +369,23 @@ void CChildView::AI()
             }
 
             //玩家掉血
-            m_hero->SetHp(m_hero->GetHp() - tEnemy);
+            HERO_HP = HERO_HP - tEnemy;
             //玩家子弹降级
-            m_hero->SetBombLevel(max(1, m_hero->GetBombLevel() - tEnemy));
-            if (m_hero->GetHp() <= 0)
+            BOMB_LEVEL = max(1, BOMB_LEVEL - tEnemy);
+            if (HERO_HP <= 0)
             {
+                HERO_HP = 0;
                 m_list[enExplosion].AddTail(new MyExplosion(m_hero->GetPoint().x, m_hero->GetPoint().y));
                 m_hero = NULL;
                 delete m_hero;
 
                 PlaySound((LPCWSTR)IDR_EXOLOSIONPLAYER, NULL, SND_ASYNC | SND_RESOURCE);
-            
+
                 return;
             }
+
+            //玩家得分
+            point += HEARD_LEVEL * tEnemy;
 
         }
     }
@@ -423,20 +454,28 @@ void CChildView::BombLevel(int l)
     switch (l)
     {
     case 1:
-        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 15, tPoint.y - 5, 1));
+        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 20, tPoint.y - 5, 1, 0, -10));
         break;
     case 2:
-        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 15, tPoint.y - 5, 2));
+        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 15, tPoint.y - 5, 2, 0, -10));
         break;
     case 3:
-        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 15, tPoint.y - 5, 2));
-        m_list[enBomb].AddTail(new MyBomb(tPoint.x -  5, tPoint.y    , 1));
-        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 45, tPoint.y    , 1));
+        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 15, tPoint.y - 5, 2,  0, -10));
+        m_list[enBomb].AddTail(new MyBomb(tPoint.x -  5, tPoint.y    , 1, -3, -10));
+        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 45, tPoint.y    , 1,  3, -10));
+        break;
+    case 4:
+    //default:
+        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 15, tPoint.y - 5, 2,  0, -10));
+        m_list[enBomb].AddTail(new MyBomb(tPoint.x - 15,     tPoint.y, 2, -3, -10));
+        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 45,     tPoint.y, 2,  3, -10));
         break;
     default:
-        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 15, tPoint.y - 5, 2));
-        m_list[enBomb].AddTail(new MyBomb(tPoint.x - 15, tPoint.y,     2));
-        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 45, tPoint.y,     2));
+        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 15,  tPoint.y - 5, 2,  0, -10));
+        m_list[enBomb].AddTail(new MyBomb(tPoint.x - 15,      tPoint.y, 2, -3, -10));
+        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 45,      tPoint.y, 2,  3, -10));
+        m_list[enBomb].AddTail(new MyBomb(tPoint.x - 45, tPoint.y + 10, 3, -5, -10));
+        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 80, tPoint.y + 10, 4,  5, -10));
         break;
     }
 }

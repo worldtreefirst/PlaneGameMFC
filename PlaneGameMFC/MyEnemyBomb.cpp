@@ -2,9 +2,9 @@
 #include "MyEnemyBomb.h"
 #include "resource.h"
 
-MyEnemyBomb::MyEnemyBomb(int x, int y) : MyGameObject(x, y)
+MyEnemyBomb::MyEnemyBomb(int x, int y, int d) : MyGameObject(x, y)
 {
-    SetDamage(1);
+    SetDamage(d);
     imagesWidth = 10;
     imagesHeight = 20;
     m_Images.LoadFromResource(AfxGetInstanceHandle(), IDB_ENEMYBOMB);
@@ -14,10 +14,6 @@ MyEnemyBomb::MyEnemyBomb(int x, int y) : MyGameObject(x, y)
 
 
 MyEnemyBomb::~MyEnemyBomb() { }
-
-int MyEnemyBomb::GetMoveX() const { return moveX; }
-
-int MyEnemyBomb::GetMoveY() const { return moveY; }
 
 BOOL MyEnemyBomb::Drop()
 {

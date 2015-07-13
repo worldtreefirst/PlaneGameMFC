@@ -14,10 +14,6 @@ MyHpStrip::MyHpStrip()
 
 MyHpStrip::~MyHpStrip() { }
 
-int MyHpStrip::GetMoveX() const { return moveX; }
-
-int MyHpStrip::GetMoveY() const { return moveY; }
-
 BOOL MyHpStrip::Drop()
 {
     return TRUE;

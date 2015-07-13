@@ -89,6 +89,7 @@ IDB_ENEMY3              BITMAP                  "res\\picture\\Enemy3.bmp"
 IDB_ENEMYBOMB           BITMAP                  "res\\picture\\EnemyBomb.bmp"
 IDB_BOMB1               BITMAP                  "res\\picture\\Bomb1.bmp"
 IDB_BOMB2               BITMAP                  "res\\picture\\Bomb2.bmp"
+IDB_BOMB3               BITMAP                  "res\\picture\\Bomb3.bmp"
 IDB_EXP                 BITMAP                  "res\\picture\\ExplosionEnemy.bmp"
 IDB_MYHEROHP            BITMAP                  "res\\picture\\HeroHp.bmp"
 
@@ -196,6 +197,18 @@ BEGIN
     LTEXT           "xuziye0327@gmail.com",IDC_STATIC,41,51,73,9
 END
 
+IDD_BEGIN DIALOGEX 0, 0, 207, 273
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "飞机~大战~"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "初级",IDC_HARD1,38,17,118,33
+    PUSHBUTTON      "没意思的模式",IDC_HEHE,38,185,118,35
+    PUSHBUTTON      "中级",IDC_HARD2,38,57,118,33
+    PUSHBUTTON      "高级",IDC_HARD3,38,101,118,33
+    PUSHBUTTON      "噩梦",IDC_HARD4,38,140,118,33
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -250,6 +263,13 @@ BEGIN
         RIGHTMARGIN, 157
         TOPMARGIN, 7
         BOTTOMMARGIN, 77
+    END
+
+    IDD_BEGIN, DIALOG
+    BEGIN
+        RIGHTMARGIN, 156
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 220
     END
 END
 #endif    // APSTUDIO_INVOKED
