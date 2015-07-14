@@ -92,6 +92,11 @@ IDB_BOMB2               BITMAP                  "res\\picture\\Bomb2.bmp"
 IDB_BOMB3               BITMAP                  "res\\picture\\Bomb3.bmp"
 IDB_EXP                 BITMAP                  "res\\picture\\ExplosionEnemy.bmp"
 IDB_MYHEROHP            BITMAP                  "res\\picture\\HeroHp.bmp"
+IDB_BOMB                BITMAP                  "res\\picture\\BombLevel.bmp"
+IDB_DAMAGE              BITMAP                  "res\\picture\\DamageLevel.bmp"
+IDB_HP                  BITMAP                  "res\\picture\\HpAdd.bmp"
+IDB_MY                  BITMAP                  "res\\picture\\MyLevel.bmp"
+IDB_PROTECT             BITMAP                  "res\\picture\\ProtectLevel.bmp"
 
 /////////////////////////////////////////////////////////////////////////////
 //

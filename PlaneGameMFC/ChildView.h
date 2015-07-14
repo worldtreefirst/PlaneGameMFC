@@ -44,6 +44,6 @@ private:
     CObList m_list[50];
     CImage m_bg;
     CBitmap m_cacheBitmap;
-    enum ObjType{ enEnemy, enBomb, enEnemyBomb, enHpStrip, enExplosion };
+    enum ObjType{ enEnemy, enBomb, enEnemyBomb, enBuff, enHpStrip, enExplosion };
 };
 

@@ -41,3 +41,5 @@ void MyGameObject:: SetPoint(int x, int y) { m_ptPos.x = x; m_ptPos.y = y; }
 void MyGameObject::SetWindowsHeight(int x) { windowsHeight = x; }
 
 int MyGameObject::HardLevel = 1;
+
+BOOL MyGameObject::iAmTheGod = FALSE;

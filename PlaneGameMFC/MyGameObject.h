@@ -30,6 +30,7 @@ public:
 public:
     CImage m_Images;
     static int HardLevel;
+    static BOOL iAmTheGod;
 protected:
     int hp;
     int maxHp;

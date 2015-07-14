@@ -105,6 +105,7 @@
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="MyBeginDialog.h" />
     <ClInclude Include="MyBomb.h" />
+    <ClInclude Include="MyBuff.h" />
     <ClInclude Include="MyEnemy.h" />
     <ClInclude Include="MyEnemyBomb.h" />
     <ClInclude Include="MyExplosion.h" />
@@ -121,6 +122,7 @@
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="MyBeginDialog.cpp" />
     <ClCompile Include="MyBomb.cpp" />
+    <ClCompile Include="MyBuff.cpp" />
     <ClCompile Include="MyEnemy.cpp" />
     <ClCompile Include="MyEnemyBomb.cpp" />
     <ClCompile Include="MyExplosion.cpp" />

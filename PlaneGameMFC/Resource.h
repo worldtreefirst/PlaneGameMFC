@@ -41,10 +41,15 @@
 #define IDB_ENEMY3                      325
 #define IDB_BOMB1                       326
 #define IDB_BOMB2                       327
+#define IDB_BOMB3                       333
 #define IDB_ENEMYBOMB                   328
 #define IDB_EXP                         329
 #define IDB_MYHEROHP                    330
-#define IDB_BOMB3                       333
+#define IDB_BOMB                        331
+#define IDB_DAMAGE                      332
+#define IDB_HP                          336
+#define IDB_MY                          334
+#define IDB_PROTECT                     335
 #define IDC_HEHE                        1000
 #define IDC_BUTTON2                     1002
 #define IDC_HARD2                       1002

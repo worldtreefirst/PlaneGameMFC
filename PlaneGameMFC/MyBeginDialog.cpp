@@ -16,8 +16,8 @@
 #define _PLANE__
 #define HERO_HP MyPlane::hp
 #define HERO_MAX_HP MyPlane::maxHp
-#define BOMB_LEVEL MyBomb::BombLevel
-#define HEARD_LEVEL MyGameObject::HardLevel
+#define BOMB_LEVEL MyPlane::bombLevel
+#define HARD_LEVEL MyGameObject::HardLevel
 #endif
 
 IMPLEMENT_DYNAMIC(MyBeginDialog, CDialogEx)
@@ -59,10 +59,11 @@ void MyBeginDialog::OnBnClickedOk()
 void MyBeginDialog::OnBnClickedHehe()
 {
     // TODO:  在此添加控件通知处理程序代码
-    HERO_HP = 9999999;
-    HERO_MAX_HP = 9999999;
-    HEARD_LEVEL = 100;
-    BOMB_LEVEL = 9999999;
+    HERO_HP = 100;
+    HERO_MAX_HP = 100;
+    HARD_LEVEL = 1;
+    BOMB_LEVEL = 1;
+    MyGameObject::iAmTheGod = TRUE;
     CDialogEx::OnOK();
 }
 
@@ -72,7 +73,7 @@ void MyBeginDialog::OnBnClickedHard1()
     // TODO:  在此添加控件通知处理程序代码
     HERO_HP = 100;
     HERO_MAX_HP = 100;
-    HEARD_LEVEL = 1;
+    HARD_LEVEL = 1;
     BOMB_LEVEL = 1;
     CDialogEx::OnOK();
 }
@@ -83,7 +84,7 @@ void MyBeginDialog::OnBnClickedHard2()
     // TODO:  在此添加控件通知处理程序代码
     HERO_HP = 100;
     HERO_MAX_HP = 100;
-    HEARD_LEVEL = 5;
+    HARD_LEVEL = 5;
     BOMB_LEVEL = 1; 
     CDialogEx::OnOK();
 }
@@ -94,7 +95,7 @@ void MyBeginDialog::OnBnClickedHard3()
     // TODO:  在此添加控件通知处理程序代码HERO_HP = 100;
     HERO_HP = 100;
     HERO_MAX_HP = 100;
-    HEARD_LEVEL = 20;
+    HARD_LEVEL = 20;
     BOMB_LEVEL = 1;
     CDialogEx::OnOK();
 }
@@ -105,7 +106,7 @@ void MyBeginDialog::OnBnClickedHard4()
     // TODO:  在此添加控件通知处理程序代码
     HERO_HP = 100;
     HERO_MAX_HP = 100;
-    HEARD_LEVEL = 100;
+    HARD_LEVEL = 100;
     BOMB_LEVEL = 1;
     CDialogEx::OnOK();
 }
