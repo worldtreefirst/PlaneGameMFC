@@ -10,7 +10,7 @@ public:
 
 public:
     static int BombLevel;
-    MyBomb(int x, int y, int l, int mx, int my);
+    MyBomb(int x, int y, int t, int mx, int my, int d);
     ~MyBomb();
 private:
     int damage;

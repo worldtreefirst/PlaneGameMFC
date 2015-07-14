@@ -54,5 +54,10 @@ int MyPlane:: GetFire() const { return nFire; }
 
 BOOL MyPlane::Drop() { return TRUE; }
 
-int MyPlane::HeroHp = -1;
-int MyPlane::HeroMaxHp = -1;
+int MyPlane::hp = 100;
+int MyPlane::maxHp = 100;
+int MyPlane::myLevel = 1;
+int MyPlane::bombLevel = 1;
+int MyPlane::protectLevel = 1;
+int MyPlane::minDamage = 10;
+int MyPlane::maxDamage = 20;

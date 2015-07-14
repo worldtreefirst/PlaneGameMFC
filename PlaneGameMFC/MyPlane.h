@@ -18,14 +18,22 @@ public:
     BOOL Fire();
 
 public:
-    static int HeroHp;
-    static int HeroMaxHp;
     MyPlane();
     ~MyPlane();
 
 public:
     static const int PLANE_WIDTH = 60;
     static const int PLANE_HEIGHT = 60;
+
+public:
+    static int      myLevel;
+    static int    bombLevel;
+    static int    minDamage;
+    static int    maxDamage;
+    static int protectLevel;
+    static int hp;
+    static int maxHp;
+
 private:
     int level;
     int nFire;

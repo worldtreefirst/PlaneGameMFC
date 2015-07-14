@@ -39,7 +39,7 @@ protected:
     int imagesHeight;
     int moveX;
     int moveY;
-    CPoint  m_ptPos;
+    CPoint m_ptPos;
 };
 
 

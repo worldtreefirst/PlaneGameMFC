@@ -14,8 +14,8 @@
 
 #ifndef _PLANE__
 #define _PLANE__
-#define HERO_HP MyPlane::HeroHp
-#define HERO_MAX_HP MyPlane::HeroMaxHp
+#define HERO_HP MyPlane::hp
+#define HERO_MAX_HP MyPlane::maxHp
 #define BOMB_LEVEL MyBomb::BombLevel
 #define HEARD_LEVEL MyGameObject::HardLevel
 #endif

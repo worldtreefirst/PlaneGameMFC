@@ -37,10 +37,19 @@
 #define _PLANE__
 #define PLANE_WIDTH 60
 #define PLANE_HEIGHE 60
-#define HERO_HP MyPlane::HeroHp
-#define HERO_MAX_HP MyPlane::HeroMaxHp
-#define BOMB_LEVEL MyBomb::BombLevel
 #define HEARD_LEVEL MyGameObject::HardLevel
+#endif
+
+#ifndef _PLANE_LEVEL__
+#define _PLANE_LEVEL__
+#define HERO_HP MyPlane::hp
+#define HERO_MAX_HP MyPlane::maxHp
+#define MY_LEVEL MyPlane::myLevel
+#define BOMB_LEVEL MyPlane::bombLevel
+#define PROTECT_LEVEL MyPlane::protectLevel
+#define MIN_DAMAGE MyPlane::minDamage
+#define MAX_DAMAGE MyPlane::maxDamage
+#define HERO_DAMAGE (rand() % (MAX_DAMAGE * (MY_LEVEL + BOMB_LEVEL)) + MIN_DAMAGE * (MY_LEVEL + BOMB_LEVEL))
 #endif
 
 #ifdef _DEBUG
@@ -53,9 +62,7 @@ CChildView::CChildView()
     bg_pos = 0;
 }
 
-CChildView::~CChildView()
-{
-}
+CChildView::~CChildView() { }
 
 BEGIN_MESSAGE_MAP(CChildView, CWnd)
     ON_WM_PAINT()
@@ -125,13 +132,16 @@ void CChildView::OnPaint()
     font.CreateFont(25, 15, 0, 0, FW_NORMAL, FALSE, FALSE, 0, ANSI_CHARSET, OUT_DEFAULT_PRECIS, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, _T("微软雅黑"));
     m_cacheDC.SelectObject(&font);
     m_cacheDC.SetTextColor(RGB(0, 255, 0)); 
-    CString tCString1, tCString2, tCString3, tCString4;
     CString cCString[100];
-    cCString[0].Format(_T("生命值：%d"), HERO_HP);
-    cCString[1].Format(_T("战机等级：%d"), BOMB_LEVEL);
+    cCString[0].Format(_T("得分：%d"), point);
+    cCString[1].Format(_T("生命值：%d"), HERO_HP);
     cCString[2].Format(_T("难度等级：%d"), HEARD_LEVEL);
-    cCString[3].Format(_T("得分：%d"), point);
-    for (int i = 0; i < 4; i++)
+    cCString[3].Format(_T("战机等级：%d"), MY_LEVEL);
+    cCString[4].Format(_T("导弹等级：%d"), BOMB_LEVEL);
+    cCString[5].Format(_T("护盾等级：%d"), PROTECT_LEVEL);
+    cCString[6].Format(_T("伤害：%d ~ %d "), MIN_DAMAGE, MAX_DAMAGE);
+
+    for (int i = 0; i < 7; i++)
     {
         TextOut(m_cacheDC, 0, i * 25, cCString[i], cCString[i].GetLength());
     }
@@ -356,10 +366,10 @@ void CChildView::AI()
         {
 
             //设定为血多的减血少的
-            int tEnemy = pEnemy->GetHp();
+            int tEnemy = pEnemy->GetHp() * HEARD_LEVEL;
             
             //敌机掉血
-            pEnemy->SetHp(pEnemy->GetHp() - HERO_HP);
+            pEnemy->SetHp(pEnemy->GetHp() - HERO_HP * BOMB_LEVEL);
             if (pEnemy->GetHp() <= 0)
             {
                 m_list[enExplosion].AddTail(new MyExplosion(pEnemy->GetPoint().x, pEnemy->GetPoint().y));
@@ -367,7 +377,7 @@ void CChildView::AI()
                 delete pEnemy;
                 PlaySound((LPCWSTR)IDR_EXOLOSIONENEMY, NULL, SND_ASYNC | SND_RESOURCE);
             }
-
+            
             //玩家掉血
             HERO_HP = HERO_HP - tEnemy;
             //玩家子弹降级
@@ -454,28 +464,28 @@ void CChildView::BombLevel(int l)
     switch (l)
     {
     case 1:
-        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 20, tPoint.y - 5, 1, 0, -10));
+        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 20, tPoint.y - 5, 1, 0, -10, HERO_DAMAGE));
         break;
     case 2:
-        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 15, tPoint.y - 5, 2, 0, -10));
+        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 15, tPoint.y - 5, 2, 0, -10, HERO_DAMAGE));
         break;
     case 3:
-        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 15, tPoint.y - 5, 2,  0, -10));
-        m_list[enBomb].AddTail(new MyBomb(tPoint.x -  5, tPoint.y    , 1, -3, -10));
-        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 45, tPoint.y    , 1,  3, -10));
+        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 15, tPoint.y - 5, 2,  0, -10, HERO_DAMAGE));
+        m_list[enBomb].AddTail(new MyBomb(tPoint.x - 5,      tPoint.y, 1, -3, -10, HERO_DAMAGE));
+        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 45,     tPoint.y, 1,  3, -10, HERO_DAMAGE));
         break;
     case 4:
     //default:
-        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 15, tPoint.y - 5, 2,  0, -10));
-        m_list[enBomb].AddTail(new MyBomb(tPoint.x - 15,     tPoint.y, 2, -3, -10));
-        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 45,     tPoint.y, 2,  3, -10));
+        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 15, tPoint.y - 5, 2,  0, -10, HERO_DAMAGE));
+        m_list[enBomb].AddTail(new MyBomb(tPoint.x - 15,     tPoint.y, 2, -3, -10, HERO_DAMAGE));
+        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 45,     tPoint.y, 2,  3, -10, HERO_DAMAGE));
         break;
     default:
-        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 15,  tPoint.y - 5, 2,  0, -10));
-        m_list[enBomb].AddTail(new MyBomb(tPoint.x - 15,      tPoint.y, 2, -3, -10));
-        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 45,      tPoint.y, 2,  3, -10));
-        m_list[enBomb].AddTail(new MyBomb(tPoint.x - 45, tPoint.y + 10, 3, -5, -10));
-        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 80, tPoint.y + 10, 4,  5, -10));
+        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 15,  tPoint.y - 5, 2,  0, -10, HERO_DAMAGE));
+        m_list[enBomb].AddTail(new MyBomb(tPoint.x - 15,      tPoint.y, 2, -3, -10, HERO_DAMAGE));
+        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 45,      tPoint.y, 2,  3, -10, HERO_DAMAGE));
+        m_list[enBomb].AddTail(new MyBomb(tPoint.x - 45, tPoint.y + 10, 3, -5, -10, HERO_DAMAGE));
+        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 80, tPoint.y + 10, 4,  5, -10, HERO_DAMAGE));
         break;
     }
 }

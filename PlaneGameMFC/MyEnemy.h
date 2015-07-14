@@ -12,7 +12,7 @@ public:
     BOOL Fire();
 
 public:
-    MyEnemy(int x, int y, int h, int d = 1);
+    MyEnemy(int x, int y, int d = 1);
     ~MyEnemy();
 
 public:

@@ -2,13 +2,13 @@
 #include "MyEnemy.h"
 #include "resource.h"
 
-MyEnemy::MyEnemy(int x, int y, int h, int d) : MyGameObject(x, y)
+MyEnemy::MyEnemy(int x, int y, int d) : MyGameObject(x, y)
 {
     imagesWidth = 60;
     imagesHeight = 60;
     windowsHeight = 0;
-    SetHp(h);
-    SetMaxHp(h);
+    SetHp(20 * MyGameObject::HardLevel);
+    SetMaxHp(20 * MyGameObject::HardLevel);
     SetDamage(d);
     srand((unsigned)time(NULL));
     for (int i = 0; i < rand() % 5; i++) srand((unsigned)time(NULL));;

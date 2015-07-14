@@ -4,12 +4,12 @@
 #include "mmsystem.h"
 #pragma comment(lib, "Winmm.lib")
 
-MyBomb::MyBomb(int x, int y, int l, int mx, int my) :MyGameObject(x, y)
+MyBomb::MyBomb(int x, int y, int t, int mx, int my, int d) :MyGameObject(x, y)
 {
-    SetDamage(l);
+    SetDamage(d);
     SetMoveX(mx);
     SetMoveY(my);
-    switch (l)
+    switch (t)
     {
     case 1:
         imagesWidth = 20;
