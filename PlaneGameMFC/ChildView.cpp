@@ -65,11 +65,11 @@
 #define PROTECT_LEVEL MyPlane::protectLevel
 #define MIN_DAMAGE MyPlane::minDamage
 #define MAX_DAMAGE MyPlane::maxDamage
-#define SHOW_MIN_DAMAGE (MIN_DAMAGE + BOMB_LEVEL * HARD_LEVEL)
-#define SHOW_MAX_DAMAGE (MAX_DAMAGE + BOMB_LEVEL * HARD_LEVEL)
+#define SHOW_MIN_DAMAGE (MIN_DAMAGE + BOMB_LEVEL * HARD_LEVEL / 3)
+#define SHOW_MAX_DAMAGE (MAX_DAMAGE + BOMB_LEVEL * HARD_LEVEL / 3)
 #define MAX_LEVEL 100
 #define BUFF_P (25 * HARD_LEVEL + 2475) / 100
-#define HERO_DAMAGE (rand() % (MAX_DAMAGE + BOMB_LEVEL * HARD_LEVEL) + MIN_DAMAGE + BOMB_LEVEL * HARD_LEVEL)
+#define HERO_DAMAGE (rand() % (MAX_DAMAGE + BOMB_LEVEL * HARD_LEVEL / 3) + MIN_DAMAGE + BOMB_LEVEL * HARD_LEVEL / 3)
 #define PROTECT_DAMAGE (1000 - (PROTECT_LEVEL + MY_LEVEL))/ 1000
 #endif
 
@@ -289,7 +289,6 @@ void CChildView::Running()
     }
 }
 
-
 void CChildView::AI()
 {
     if (m_hero == NULL) return;
@@ -499,7 +498,7 @@ void CChildView::AI()
             switch (pMyBuff->GetType())
             {
             case BUFF_HP:
-                HERO_HP = min(HERO_HP + HARD_LEVEL * 20, HERO_MAX_HP);
+                HERO_HP = min(HERO_HP + (rand() % HARD_LEVEL / 3 * 10) + HARD_LEVEL / 3 * 10 + 40, HERO_MAX_HP);
                 break;
             case BUFF_BOMB:
                 BOMB_LEVEL = min(BOMB_LEVEL + 1, 5);
@@ -533,7 +532,6 @@ int CChildView::GetKey(int nVirtKey)
 {
     return (GetKeyState(nVirtKey) & 0x8000) ? 1 : 0;
 }
-
 
 int CChildView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
@@ -615,7 +613,6 @@ void CChildView::BombLevel(int l)
         break;
     }
 }
-
 
 void CChildView::CreateBomb(MyEnemy* e)
 {

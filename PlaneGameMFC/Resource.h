@@ -67,6 +67,12 @@
 #define IDC_HARD3                       1003
 #define IDC_HARD4                       1004
 #define IDC_HARD1                       1005
+#define IDB_BOSS1                       381
+#define IDB_BOSS2                       382
+#define IDB_BOSS3                       383
+#define IDB_BOSS4                       384
+#define IDB_BOSS5                       385
+#define IDB_BOSS6                       386
 
 // Next default values for new objects
 // 

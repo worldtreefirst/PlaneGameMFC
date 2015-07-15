@@ -108,6 +108,12 @@ IDB_BACKGROUND2         BITMAP                  "res\\picture\\BackGroud2.bmp"
 IDB_BACKGROUND3         BITMAP                  "res\\picture\\BackGroud3.bmp"
 IDB_BACKGROUND4         BITMAP                  "res\\picture\\BackGroud4.bmp"
 IDB_BACKGROUND5         BITMAP                  "res\\picture\\BackGroud5.bmp"
+IDB_BOSS1               BITMAP                  "res\\picture\\Boss1.bmp"
+IDB_BOSS2               BITMAP                  "res\\picture\\Boss2.bmp"
+IDB_BOSS3               BITMAP                  "res\\picture\\Boss3.bmp"
+IDB_BOSS4               BITMAP                  "res\\picture\\Boss4.bmp"
+IDB_BOSS5               BITMAP                  "res\\picture\\Boss5.bmp"
+IDB_BOSS6               BITMAP                  "res\\picture\\Boss6.bmp"
 
 /////////////////////////////////////////////////////////////////////////////
 //
