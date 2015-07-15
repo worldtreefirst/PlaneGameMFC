@@ -9,7 +9,7 @@ public:
     int GetStates() const ;
 
 public:
-    MyExplosion(int x, int y);
+    MyExplosion(int x, int y, int width, int height);
     ~MyExplosion();
 
 private:

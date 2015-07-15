@@ -38,8 +38,6 @@ MyBomb::MyBomb(int x, int y, int t, int mx, int my, int d) :MyGameObject(x, y)
 
 MyBomb::~MyBomb() { }
 
-void MyBomb::GetWindowsHeight(int x) { windowsHeight = x; }
-
 BOOL MyBomb::Drop()
 {
     if (GetPoint().y + BOMB_HEIGHT < 0) return TRUE;

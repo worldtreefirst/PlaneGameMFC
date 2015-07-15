@@ -5,20 +5,19 @@ class MyEnemy :
     public MyGameObject
 {
 public:
-    int GetPointX();
-    int GetPointY();
-    void GetWindowsHeight(int x);
+    int GetPlaneType() const;
     BOOL Drop();
     BOOL Fire();
 
 public:
-    MyEnemy(int x, int y, int d = 1);
+    MyEnemy(int t, int windowsHeight, int windowsWidth);
     ~MyEnemy();
 
 public:
     MyHpStrip* enemyHp;
 
 private:
+    int change;
     int lFire;
     int nFire;
     int planeType;

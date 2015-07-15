@@ -111,7 +111,7 @@ BOOL CMFCPlaneGameApp::InitInstance()
         WS_OVERLAPPEDWINDOW | FWS_ADDTOTITLE, NULL,
         NULL);
     // 唯一的一个窗口已初始化，因此显示它并对其进行更新
-    pFrame->SetWindowPos(NULL, 0, 0, 567, 900, SWP_NOMOVE);
+    pFrame->SetWindowPos(NULL, 0, 0, 533, 800, SWP_NOMOVE);
     pFrame->ShowWindow(SW_SHOW);
     pFrame->UpdateWindow();
     return TRUE;

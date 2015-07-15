@@ -38,6 +38,8 @@ void MyGameObject::    SetHardLevel(int l) { HardLevel = l; }
 
 void MyGameObject:: SetPoint(int x, int y) { m_ptPos.x = x; m_ptPos.y = y; }
 
+void MyGameObject:: SetWindowsWidth(int x)  { windowsWidth = x; }
+
 void MyGameObject::SetWindowsHeight(int x) { windowsHeight = x; }
 
 int MyGameObject::HardLevel = 1;

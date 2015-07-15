@@ -9,6 +9,7 @@
 // CChildView ´°¿Ú
 class MyPlane;
 class MyHpStrip;
+class MyEnemy;
 class CChildView : public CWnd
 {
 public:
@@ -30,12 +31,14 @@ protected:
 protected:
     int GetKey(int nVirtKey);
     void AI();
+    void LoadBg();
     void Running();
     void BombLevel(int l);
 
 private:
     int point;
     int bg_pos;
+    int bg_type;
     bool large;
     CDC m_cacheDC;
     CRect m_client;
@@ -43,7 +46,10 @@ private:
     MyHpStrip* m_herohp;
     CObList m_list[50];
     CImage m_bg;
+    CImage mBgList[10];
     CBitmap m_cacheBitmap;
     enum ObjType{ enEnemy, enBomb, enEnemyBomb, enBuff, enHpStrip, enExplosion };
+public:
+    void CreateBomb(MyEnemy* e);
 };
 

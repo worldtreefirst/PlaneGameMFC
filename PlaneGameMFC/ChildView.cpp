@@ -22,7 +22,9 @@
 #ifndef _TIMER__
 #define _TIMER__
 #define TIMER_PAINT 1
-#define TIMER_CREATENEMY 2
+#define TIMER_CREATENEMY1 2
+#define TIMER_CREATENEMY2 3
+#define TIMER_CREATENEMY3 4
 #define TIMER_BEGINGAME 999
 #endif
 
@@ -48,6 +50,9 @@
 #define _PLANE__
 #define PLANE_WIDTH 60
 #define PLANE_HEIGHE 60
+#define ENEMY_TYPE1 1
+#define ENEMY_TYPE2 2
+#define ENEMY_TYPE3 3 
 #define HARD_LEVEL MyGameObject::HardLevel
 #endif
 
@@ -86,6 +91,27 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
     ON_WM_CREATE()
 END_MESSAGE_MAP()
 
+BOOL CChildView::ExtractResource(LPCTSTR strDstFile, LPCTSTR strResType, LPCTSTR strResName)
+{
+    // 创建文件
+    HANDLE hFile = ::CreateFile(strDstFile, GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_TEMPORARY, NULL);
+    if (hFile == INVALID_HANDLE_VALUE)
+        return false;
+
+    // 查找资源文件中、加载资源到内存、得到资源大小
+    HRSRC    hRes = ::FindResource(NULL, strResName, strResType);
+    HGLOBAL    hMem = ::LoadResource(NULL, hRes);
+    DWORD    dwSize = ::SizeofResource(NULL, hRes);
+
+    // 写入文件
+    DWORD dwWrite = 0; // 返回写入字节
+    ::WriteFile(hFile, hMem, dwSize, &dwWrite, NULL);
+    ::CloseHandle(hFile);
+
+    return true;
+
+}
+
 BOOL CChildView::PreCreateWindow(CREATESTRUCT& cs)
 {
     if (!CWnd::PreCreateWindow(cs))
@@ -98,10 +124,8 @@ BOOL CChildView::PreCreateWindow(CREATESTRUCT& cs)
 
     //-------游戏数据初始化部分--------
 
-    //产生随机数种子
-    srand((unsigned)time(NULL));
-
     //初始化背景
+    LoadBg();
     m_bg.LoadFromResource(AfxGetInstanceHandle(), IDB_BACKGROUND);
 
     //加载英雄
@@ -150,14 +174,15 @@ void CChildView::OnPaint()
     m_cacheDC.SetTextColor(RGB(0, 255, 0)); 
     CString cCString[100];
     cCString[0].Format(_T("得分：%d"), point);
-    cCString[1].Format(_T("生命值：%d"), HERO_HP);
-    cCString[2].Format(_T("难度等级：%d"), HARD_LEVEL);
-    cCString[3].Format(_T("战机等级：%d"), MY_LEVEL);
-    cCString[4].Format(_T("导弹等级：%d"), BOMB_LEVEL);
-    cCString[5].Format(_T("护盾等级：%d"), PROTECT_LEVEL);
-    cCString[6].Format(_T("伤害：%d ~ %d "), SHOW_MIN_DAMAGE, SHOW_MAX_DAMAGE);
+    cCString[1].Format(_T("当前生命值：%d"), HERO_HP);
+    cCString[2].Format(_T("最大生命值：%d"), HERO_MAX_HP);
+    cCString[3].Format(_T("难度等级：%d"), HARD_LEVEL);
+    cCString[4].Format(_T("战机等级：%d"), MY_LEVEL);
+    cCString[5].Format(_T("导弹等级：%d"), BOMB_LEVEL);
+    cCString[6].Format(_T("装甲等级：%d"), PROTECT_LEVEL);
+    cCString[7].Format(_T("伤害：%d ~ %d "), SHOW_MIN_DAMAGE, SHOW_MAX_DAMAGE);
 
-    for (int i = 0; i < 7; i++)
+    for (int i = 0; i < 8; i++)
     {
         TextOut(m_cacheDC, 0, i * 25, cCString[i], cCString[i].GetLength());
     }
@@ -172,18 +197,22 @@ void CChildView::OnPaint()
 
 }
 
-
-
 void CChildView::Running()
 {
+    //产生随机数种子
+    srand((unsigned)time(NULL));
+
     //贴背景
-    m_bg.Draw(m_cacheDC, 0, bg_pos, PAGE_WIDTH, PAGE_HEIGHT);
-    m_bg.Draw(m_cacheDC, 0, bg_pos - PAGE_HEIGHT, PAGE_WIDTH, PAGE_HEIGHT);
+    mBgList[bg_type].Draw(m_cacheDC, 0, bg_pos, PAGE_WIDTH, PAGE_HEIGHT);
+    mBgList[bg_type].Draw(m_cacheDC, 0, bg_pos - PAGE_HEIGHT, PAGE_WIDTH, PAGE_HEIGHT);
+    //m_bg.Draw(m_cacheDC, 0, bg_pos, PAGE_WIDTH, PAGE_HEIGHT);
+    //m_bg.Draw(m_cacheDC, 0, bg_pos - PAGE_HEIGHT, PAGE_WIDTH, PAGE_HEIGHT);
 
     //难度升级
     if (HARD_LEVEL != MAX_LEVEL && point >= HARD_LEVEL * (HARD_LEVEL + 1) * 100 / 2)
     {
         HARD_LEVEL = min(MAX_LEVEL, HARD_LEVEL + 1);
+        if (!(HARD_LEVEL % 5)) { bg_type = rand() % 5; }
         if (!(HARD_LEVEL % 3) && MY_LEVEL != MAX_LEVEL)
         {
             ++MY_LEVEL;
@@ -218,7 +247,8 @@ void CChildView::Running()
         for (pos1 = m_list[i].GetHeadPosition(); (pos2 = pos1) != NULL;)
         {
             MyGameObject* pObj = (MyGameObject*)m_list[i].GetNext(pos1);
-            pObj->SetWindowsHeight(WINDOWS_HEIGHT);
+            pObj->SetWindowsHeight(min(WINDOWS_HEIGHT, PAGE_HEIGHT));
+            pObj->SetWindowsWidth(min(WINDOWS_WIDTH, PAGE_WIDTH));
             if (!pObj->Drop())
             {
                 pObj->m_Images.TransparentBlt(m_cacheDC, pObj->GetPoint().x, pObj->GetPoint().y, pObj->GetImagesWidth(), pObj->GetImagesHeight(), RGB(255, 255, 255));
@@ -238,7 +268,7 @@ void CChildView::Running()
     {
         MyEnemy* pEnemy = (MyEnemy*)m_list[enEnemy].GetNext(pos);
         if ((pEnemy->GetMaxHp() / pEnemy->GetHp()) < 60)
-            pEnemy->enemyHp->m_Images.Draw(m_cacheDC, pEnemy->GetPoint().x, pEnemy->GetPoint().y - 20, PLANE_WIDTH * pEnemy->GetHp() / pEnemy->GetMaxHp(), 10, 0, 0, PLANE_WIDTH, PLANE_WIDTH);
+            pEnemy->enemyHp->m_Images.Draw(m_cacheDC, pEnemy->GetPoint().x, pEnemy->GetPoint().y - 20, pEnemy->GetImagesWidth() * pEnemy->GetHp() / pEnemy->GetMaxHp(), 10, 0, 0, PLANE_WIDTH, PLANE_WIDTH);
     }
 
     //画爆炸
@@ -310,7 +340,7 @@ void CChildView::AI()
         BOOL FIRE = rand() % 2;
         if (FIRE && pEnemy->Fire())
         {
-            m_list[enEnemyBomb].AddTail(new MyEnemyBomb(pEnemy->GetPoint().x + 25, pEnemy->GetPoint().y + 60, pEnemy->GetDamage() * HARD_LEVEL));
+            CreateBomb(pEnemy);
         }
     }
 
@@ -341,9 +371,9 @@ void CChildView::AI()
                     }
 
                     //玩家得分
-                    point += HARD_LEVEL * pEnemy->GetDamage();
+                    point += pEnemy->GetDamage() + HARD_LEVEL * 5;
 
-                    m_list[enExplosion].AddTail(new MyExplosion(pEnemy->GetPoint().x, pEnemy->GetPoint().y));
+                    m_list[enExplosion].AddTail(new MyExplosion(pEnemy->GetPoint().x, pEnemy->GetPoint().y, pEnemy->GetImagesWidth(), pEnemy->GetImagesHeight()));
 
                     PlaySound((LPCWSTR)IDR_EXOLOSIONENEMY, NULL, SND_ASYNC | SND_RESOURCE);
 
@@ -386,7 +416,7 @@ void CChildView::AI()
                     HERO_HP = HERO_MAX_HP;
                     break;
                 }
-                m_list[enExplosion].AddTail(new MyExplosion(m_hero->GetPoint().x, m_hero->GetPoint().y));
+                m_list[enExplosion].AddTail(new MyExplosion(m_hero->GetPoint().x, m_hero->GetPoint().y, m_hero->GetImagesWidth(), m_hero->GetImagesHeight()));
 
                 m_hero = NULL;
                 delete m_hero;
@@ -411,7 +441,7 @@ void CChildView::AI()
         {
 
             //设定为敌机摧毁，玩家掉血
-            int tEnemy = pEnemy->GetDamage() * HARD_LEVEL;
+            int tEnemy = pEnemy->GetDamage();
             
             //随机生成BUFF
             if (rand() % 100 + 1 <= BUFF_P)
@@ -420,7 +450,7 @@ void CChildView::AI()
             }
 
             //敌机摧毁
-           m_list[enExplosion].AddTail(new MyExplosion(pEnemy->GetPoint().x, pEnemy->GetPoint().y));
+           m_list[enExplosion].AddTail(new MyExplosion(pEnemy->GetPoint().x, pEnemy->GetPoint().y, pEnemy->GetImagesWidth(), pEnemy->GetImagesHeight()));
            m_list[enEnemy].RemoveAt(pos2);
            delete pEnemy;
            PlaySound((LPCWSTR)IDR_EXOLOSIONENEMY, NULL, SND_ASYNC | SND_RESOURCE);
@@ -439,7 +469,7 @@ void CChildView::AI()
                     HERO_HP = HERO_MAX_HP;
                     break;
                 }
-                m_list[enExplosion].AddTail(new MyExplosion(m_hero->GetPoint().x, m_hero->GetPoint().y));
+                m_list[enExplosion].AddTail(new MyExplosion(m_hero->GetPoint().x, m_hero->GetPoint().y, m_hero->GetImagesWidth(), m_hero->GetImagesHeight()));
 
                 m_hero = NULL;
                 delete m_hero;
@@ -450,7 +480,7 @@ void CChildView::AI()
             }
 
             //玩家得分
-            point += HARD_LEVEL * tEnemy;
+            point += tEnemy + HARD_LEVEL * 5;
         }
     }
 
@@ -499,27 +529,6 @@ void CChildView::AI()
     }
 }
 
-BOOL CChildView::ExtractResource(LPCTSTR strDstFile, LPCTSTR strResType, LPCTSTR strResName)
-{
-    // 创建文件
-    HANDLE hFile = ::CreateFile(strDstFile, GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_TEMPORARY, NULL);
-    if (hFile == INVALID_HANDLE_VALUE)
-        return false;
-
-    // 查找资源文件中、加载资源到内存、得到资源大小
-    HRSRC    hRes = ::FindResource(NULL, strResName, strResType);
-    HGLOBAL    hMem = ::LoadResource(NULL, hRes);
-    DWORD    dwSize = ::SizeofResource(NULL, hRes);
-
-    // 写入文件
-    DWORD dwWrite = 0; // 返回写入字节
-    ::WriteFile(hFile, hMem, dwSize, &dwWrite, NULL);
-    ::CloseHandle(hFile);
-
-    return true;
-
-}
-
 int CChildView::GetKey(int nVirtKey)
 {
     return (GetKeyState(nVirtKey) & 0x8000) ? 1 : 0;
@@ -532,7 +541,9 @@ int CChildView::OnCreate(LPCREATESTRUCT lpCreateStruct)
         return -1;
 
     SetTimer(TIMER_PAINT, 1, NULL);
-    SetTimer(TIMER_CREATENEMY, rand() % 800 + 400, NULL);
+    SetTimer(TIMER_CREATENEMY1, rand() % 2000 + 1000 - HARD_LEVEL * 10, NULL);
+    SetTimer(TIMER_CREATENEMY2, rand() % 3000 + 2000 - HARD_LEVEL * 20, NULL);
+    SetTimer(TIMER_CREATENEMY3, rand() % 6000 + 4000 - HARD_LEVEL * 30, NULL);
 
     return 0;
 }
@@ -546,13 +557,31 @@ void CChildView::OnTimer(UINT_PTR nIDEvent)
         if (bg_pos > PAGE_HEIGHT) bg_pos = 0;
         OnPaint();
         break;
-    case TIMER_CREATENEMY:
-        //创建敌机
-        m_list[enEnemy].AddTail(new MyEnemy(rand() % (min(PAGE_WIDTH, WINDOWS_WIDTH) - 60), -60, rand() % 10 + 5));
+    case TIMER_CREATENEMY1:
+        //创建第一类敌机
+        m_list[enEnemy].AddTail(new MyEnemy(ENEMY_TYPE1, min(WINDOWS_HEIGHT, PAGE_HEIGHT), min(WINDOWS_WIDTH, PAGE_WIDTH)));
+        break;
+    case TIMER_CREATENEMY2:
+        //创建第二类敌机
+        m_list[enEnemy].AddTail(new MyEnemy(ENEMY_TYPE2, min(WINDOWS_HEIGHT, PAGE_HEIGHT), min(WINDOWS_WIDTH, PAGE_WIDTH)));
+        break;
+    case TIMER_CREATENEMY3:
+        //创建第三类敌机
+        m_list[enEnemy].AddTail(new MyEnemy(ENEMY_TYPE3, min(WINDOWS_HEIGHT, PAGE_HEIGHT), min(WINDOWS_WIDTH, PAGE_WIDTH)));
         break;
     default:
         break;
     }
+}
+
+void CChildView::LoadBg()
+{
+    bg_type = rand() % 5;
+    mBgList[0].LoadFromResource(AfxGetInstanceHandle(), IDB_BACKGROUND1);
+    mBgList[1].LoadFromResource(AfxGetInstanceHandle(), IDB_BACKGROUND2);
+    mBgList[2].LoadFromResource(AfxGetInstanceHandle(), IDB_BACKGROUND3);
+    mBgList[3].LoadFromResource(AfxGetInstanceHandle(), IDB_BACKGROUND4);
+    mBgList[4].LoadFromResource(AfxGetInstanceHandle(), IDB_BACKGROUND5);
 }
 
 void CChildView::BombLevel(int l)
@@ -584,5 +613,27 @@ void CChildView::BombLevel(int l)
         m_list[enBomb].AddTail(new MyBomb(tPoint.x - 45, tPoint.y + 10, 3, -5, -10, HERO_DAMAGE));
         m_list[enBomb].AddTail(new MyBomb(tPoint.x + 80, tPoint.y + 10, 4,  5, -10, HERO_DAMAGE));
         break;
+    }
+}
+
+
+void CChildView::CreateBomb(MyEnemy* e)
+{
+    switch (e->GetPlaneType())
+    {
+    case 1:
+        m_list[enEnemyBomb].AddTail(new MyEnemyBomb(e->GetPoint().x + 25, e->GetPoint().y + 60, e->GetDamage(), 0, 10));
+        break;
+    case 2:
+        m_list[enEnemyBomb].AddTail(new MyEnemyBomb(e->GetPoint().x + 10, e->GetPoint().y + 60, e->GetDamage(), 0, 10));
+        m_list[enEnemyBomb].AddTail(new MyEnemyBomb(e->GetPoint().x + 60, e->GetPoint().y + 60, e->GetDamage(), 0, 10));
+        break;
+    case 3:
+        m_list[enEnemyBomb].AddTail(new MyEnemyBomb(e->GetPoint().x + 15, e->GetPoint().y + 60, e->GetDamage(), -5, 10));
+        m_list[enEnemyBomb].AddTail(new MyEnemyBomb(e->GetPoint().x + 40, e->GetPoint().y + 60, e->GetDamage(),  0, 10));
+        m_list[enEnemyBomb].AddTail(new MyEnemyBomb(e->GetPoint().x + 65, e->GetPoint().y + 60, e->GetDamage(),  5, 10));
+    default:
+        break;
+
     }
 }

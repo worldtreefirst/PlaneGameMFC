@@ -40,7 +40,7 @@ MyBuff::MyBuff(int x, int y) : MyGameObject(x, y)
         SetType(BUFF_DAMAGE);
         m_Images.LoadFromResource(AfxGetInstanceHandle(), IDB_DAMAGE);
     }
-    else if (P <= 75)
+    else if (P <= 80)
     {
         SetType(BUFF_PROTECT);
         m_Images.LoadFromResource(AfxGetInstanceHandle(), IDB_PROTECT);

@@ -24,6 +24,7 @@ public:
     void        SetDamage(int d);
     void     SetHardLevel(int l);
     void  SetPoint(int x, int y);
+    void  SetWindowsWidth(int x);
     void SetWindowsHeight(int x);
     CPoint GetPoint();
 
@@ -36,6 +37,7 @@ protected:
     int maxHp;
     int damage;
     int windowsHeight;
+    int windowsWidth;
     int imagesWidth;
     int imagesHeight;
     int moveX;

@@ -5,10 +5,9 @@ class MyEnemyBomb :
 {
 public:
     BOOL Drop();
-    void GetWindowsHeight(int x);
 
 public:
-    MyEnemyBomb(int x, int y, int d);
+    MyEnemyBomb(int x, int y, int d, int mx, int my);
     ~MyEnemyBomb();
 
 private:
