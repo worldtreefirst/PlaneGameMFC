@@ -44,4 +44,6 @@ void MyGameObject::SetWindowsHeight(int x) { windowsHeight = x; }
 
 int MyGameObject::HardLevel = 1;
 
+BOOL MyGameObject::beginGame = FALSE;
+
 BOOL MyGameObject::iAmTheGod = FALSE;

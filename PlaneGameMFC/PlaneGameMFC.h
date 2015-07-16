@@ -25,8 +25,6 @@ public:
     virtual BOOL InitInstance();
     virtual int ExitInstance();
 
-    // й╣ож
-
 public:
     UINT  m_nAppLook;
     BOOL  m_bHiColorIcons;

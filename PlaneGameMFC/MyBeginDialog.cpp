@@ -14,6 +14,7 @@
 
 #ifndef _PLANE__
 #define _PLANE__
+#define BEGINGAME MyGameObject::beginGame
 #define HERO_HP MyPlane::hp
 #define HERO_MAX_HP MyPlane::maxHp
 #define BOMB_LEVEL MyPlane::bombLevel
@@ -59,6 +60,7 @@ void MyBeginDialog::OnBnClickedOk()
 void MyBeginDialog::OnBnClickedHehe()
 {
     // TODO:  在此添加控件通知处理程序代码
+    BEGINGAME = TRUE;
     HERO_HP = 100;
     HERO_MAX_HP = 100;
     HARD_LEVEL = 1;
@@ -71,6 +73,7 @@ void MyBeginDialog::OnBnClickedHehe()
 void MyBeginDialog::OnBnClickedHard1()
 {
     // TODO:  在此添加控件通知处理程序代码
+    BEGINGAME = TRUE;
     HERO_HP = 100;
     HERO_MAX_HP = 100;
     HARD_LEVEL = 1;
@@ -82,6 +85,7 @@ void MyBeginDialog::OnBnClickedHard1()
 void MyBeginDialog::OnBnClickedHard2()
 {
     // TODO:  在此添加控件通知处理程序代码
+    BEGINGAME = TRUE;
     HERO_HP = 100;
     HERO_MAX_HP = 100;
     HARD_LEVEL = 5;
@@ -92,7 +96,8 @@ void MyBeginDialog::OnBnClickedHard2()
 
 void MyBeginDialog::OnBnClickedHard3()
 {
-    // TODO:  在此添加控件通知处理程序代码HERO_HP = 100;
+    // TODO:  在此添加控件通知处理程序代码
+    BEGINGAME = TRUE;
     HERO_HP = 100;
     HERO_MAX_HP = 100;
     HARD_LEVEL = 20;
@@ -104,6 +109,7 @@ void MyBeginDialog::OnBnClickedHard3()
 void MyBeginDialog::OnBnClickedHard4()
 {
     // TODO:  在此添加控件通知处理程序代码
+    BEGINGAME = TRUE;
     HERO_HP = 100;
     HERO_MAX_HP = 100;
     HARD_LEVEL = 100;

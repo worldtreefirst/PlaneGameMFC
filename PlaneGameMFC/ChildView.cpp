@@ -8,6 +8,7 @@
 
 #include "MyGameObject.h"
 #include "MyPlane.h"
+#include "MyBoss.h"
 #include "MyBomb.h"
 #include "MyBuff.h"
 #include "MyEnemy.h"
@@ -34,6 +35,7 @@
 #define WINDOWS_HEIGHT  m_client.Height()
 #define PAGE_WIDTH m_bg.GetWidth()
 #define PAGE_HEIGHT m_bg.GetHeight()
+#define BEGINGAME MyGameObject::beginGame
 #define I_AM_THE_GOD MyGameObject::iAmTheGod
 #endif
 
@@ -131,6 +133,10 @@ BOOL CChildView::PreCreateWindow(CREATESTRUCT& cs)
     //加载英雄
     m_hero = new MyPlane;
     m_herohp = new MyHpStrip;
+    
+    //加载boss
+    boss = FALSE;
+    m_Boss = NULL;
 
     //初始化得分
     point = 0;
@@ -171,7 +177,7 @@ void CChildView::OnPaint()
     //状态面板
     font.CreateFont(25, 15, 0, 0, FW_NORMAL, FALSE, FALSE, 0, ANSI_CHARSET, OUT_DEFAULT_PRECIS, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, _T("微软雅黑"));
     m_cacheDC.SelectObject(&font);
-    m_cacheDC.SetTextColor(RGB(0, 255, 0)); 
+    m_cacheDC.SetTextColor(RGB(0, 255, 0));
     CString cCString[100];
     cCString[0].Format(_T("得分：%d"), point);
     cCString[1].Format(_T("当前生命值：%d"), HERO_HP);
@@ -181,8 +187,14 @@ void CChildView::OnPaint()
     cCString[5].Format(_T("导弹等级：%d"), BOMB_LEVEL);
     cCString[6].Format(_T("装甲等级：%d"), PROTECT_LEVEL);
     cCString[7].Format(_T("伤害：%d ~ %d "), SHOW_MIN_DAMAGE, SHOW_MAX_DAMAGE);
+    if (MyGameObject::beginGame)
+        cCString[8].Format(_T("ok"));
+    else
+    {
+        cCString[8].Format(_T("oh shit"));
+    }
 
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 9; i++)
     {
         TextOut(m_cacheDC, 0, i * 25, cCString[i], cCString[i].GetLength());
     }
@@ -194,7 +206,6 @@ void CChildView::OnPaint()
     m_cacheDC.DeleteDC();
     m_cacheBitmap.DeleteObject();
     ReleaseDC(cDC);
-
 }
 
 void CChildView::Running()
@@ -205,14 +216,28 @@ void CChildView::Running()
     //贴背景
     mBgList[bg_type].Draw(m_cacheDC, 0, bg_pos, PAGE_WIDTH, PAGE_HEIGHT);
     mBgList[bg_type].Draw(m_cacheDC, 0, bg_pos - PAGE_HEIGHT, PAGE_WIDTH, PAGE_HEIGHT);
-    //m_bg.Draw(m_cacheDC, 0, bg_pos, PAGE_WIDTH, PAGE_HEIGHT);
-    //m_bg.Draw(m_cacheDC, 0, bg_pos - PAGE_HEIGHT, PAGE_WIDTH, PAGE_HEIGHT);
+
+    //设置定时器
+    if (BEGINGAME && m_Boss == NULL)
+    {
+        //SetTimer(TIMER_CREATENEMY1, rand() % 20, NULL);
+        if (!timer[TIMER_CREATENEMY1] && rand() % 2) { timer[TIMER_CREATENEMY1] = TRUE; SetTimer(TIMER_CREATENEMY1, rand() % 2000 + 1000 - HARD_LEVEL * 10, NULL); }
+        if (!timer[TIMER_CREATENEMY2] && rand() % 2) { timer[TIMER_CREATENEMY2] = TRUE; SetTimer(TIMER_CREATENEMY2, rand() % 3000 + 2000 - HARD_LEVEL * 20, NULL); }
+        if (!timer[TIMER_CREATENEMY3] && rand() % 2) { timer[TIMER_CREATENEMY3] = TRUE; SetTimer(TIMER_CREATENEMY3, rand() % 6000 + 4000 - HARD_LEVEL * 30, NULL); }
+    }
 
     //难度升级
+    if (BEGINGAME && m_Boss == NULL && !(HARD_LEVEL % 5))
+    {
+        m_Boss = new MyBoss(min(WINDOWS_WIDTH, PAGE_WIDTH), min(WINDOWS_HEIGHT, PAGE_HEIGHT));
+    }
     if (HARD_LEVEL != MAX_LEVEL && point >= HARD_LEVEL * (HARD_LEVEL + 1) * 100 / 2)
     {
         HARD_LEVEL = min(MAX_LEVEL, HARD_LEVEL + 1);
-        if (!(HARD_LEVEL % 5)) { bg_type = rand() % 5; }
+        if (!(HARD_LEVEL % 5)) 
+        {
+            bg_type = rand() % 5; 
+        }
         if (!(HARD_LEVEL % 3) && MY_LEVEL != MAX_LEVEL)
         {
             ++MY_LEVEL;
@@ -228,7 +253,7 @@ void CChildView::Running()
     {
         m_hero->m_Images.TransparentBlt(m_cacheDC, m_hero->GetPoint().x, m_hero->GetPoint().y, PLANE_WIDTH, PLANE_HEIGHE, 0, 0, m_hero->m_Images.GetWidth(), m_hero->m_Images.GetHeight(), RGB(255, 255, 255));
         if (HERO_MAX_HP / HERO_HP < 60)
-            m_herohp->m_Images.Draw(m_cacheDC, m_hero->GetPoint().x, m_hero->GetPoint().y - 20, PLANE_WIDTH * HERO_HP / HERO_MAX_HP, 10, 0, 0, PLANE_WIDTH, PLANE_HEIGHE);
+            m_herohp->m_Images.Draw(m_cacheDC, m_hero->GetPoint().x, m_hero->GetPoint().y - 20, PLANE_WIDTH * HERO_HP / HERO_MAX_HP, 30, 0, 0, PLANE_WIDTH, PLANE_HEIGHE);
     }
     else
     { 
@@ -238,6 +263,15 @@ void CChildView::Running()
         m_cacheDC.SetTextColor(RGB(255, 0, 0));
         m_cacheDC.SelectObject(font);
         TextOut(m_cacheDC, m_client.Width() / 2 - 125, m_client.Height() / 2 - 100, str, str.GetLength());
+    }
+
+    //贴BOSS
+    if (m_Boss != NULL)
+    {
+        m_Boss->m_Images.TransparentBlt(m_cacheDC, m_Boss->GetPoint().x, m_Boss->GetPoint().y, m_Boss->GetImagesWidth(), m_Boss->GetImagesHeight(), 0, 0, m_Boss->m_Images.GetWidth(), m_Boss->m_Images.GetHeight(), RGB(255, 255, 255));
+        m_Boss->SetPoint(m_Boss->GetPoint().x + m_Boss->GetMoveX(), m_Boss->GetPoint().y + m_Boss->GetMoveY());
+        if (m_Boss->GetMaxHp() / m_Boss->GetHp() < 60)
+            m_Boss->myBossHp->m_Images.Draw(m_cacheDC, m_Boss->GetPoint().x, m_Boss->GetPoint().y - 30, m_Boss->GetImagesWidth() * m_Boss->GetHp() / m_Boss->GetMaxHp(), 100, 0, 0, m_Boss->GetImagesWidth(), m_Boss->GetImagesHeight());
     }
 
     //画导弹, 敌机， 敌机子弹, BUFF
@@ -268,7 +302,7 @@ void CChildView::Running()
     {
         MyEnemy* pEnemy = (MyEnemy*)m_list[enEnemy].GetNext(pos);
         if ((pEnemy->GetMaxHp() / pEnemy->GetHp()) < 60)
-            pEnemy->enemyHp->m_Images.Draw(m_cacheDC, pEnemy->GetPoint().x, pEnemy->GetPoint().y - 20, pEnemy->GetImagesWidth() * pEnemy->GetHp() / pEnemy->GetMaxHp(), 10, 0, 0, PLANE_WIDTH, PLANE_WIDTH);
+            pEnemy->enemyHp->m_Images.Draw(m_cacheDC, pEnemy->GetPoint().x, pEnemy->GetPoint().y - 20, pEnemy->GetImagesWidth() * pEnemy->GetHp() / pEnemy->GetMaxHp(), 30, 0, 0, PLANE_WIDTH, PLANE_WIDTH);
     }
 
     //画爆炸
@@ -278,7 +312,7 @@ void CChildView::Running()
         MyExplosion* pExp = (MyExplosion*)m_list[enExplosion].GetNext(pos1);
         if (!pExp->Drop())
         {
-            pExp->m_Images.TransparentBlt(m_cacheDC, pExp->GetPoint().x, pExp->GetPoint().y, 60, 60, 44 * pExp->GetStates(), 0, 43, 49, RGB(255, 255, 255));
+            pExp->m_Images.TransparentBlt(m_cacheDC, pExp->GetPoint().x, pExp->GetPoint().y, pExp->GetImagesWidth(), pExp->GetImagesHeight(), 44 * pExp->GetStates(), 0, 43, 49, RGB(255, 255, 255));
             pExp->UpDateStates();
         }
         else
@@ -323,12 +357,97 @@ void CChildView::AI()
         m_hero->updatePoint();
         m_hero->judgeEdge(PAGE_WIDTH, PAGE_HEIGHT, WINDOWS_WIDTH, WINDOWS_HEIGHT);
 
-
         //产生导弹
         if (GetKey(VK_SPACE))
         {
             if (m_hero != NULL && m_hero->Fire()) { BombLevel(BOMB_LEVEL); }
 
+        }
+    }
+
+    
+    //BOSS存在
+    if (m_Boss != NULL)
+    {
+        //BOSS发射子弹
+        if (m_Boss->Fire())
+        {
+            m_list[enEnemyBomb].AddTail(new MyEnemyBomb(m_Boss->GetPoint().x + 25, m_Boss->GetPoint().y + 60, m_Boss->GetDamage(), 0, 10));
+        }
+
+        //导弹击中BOSS
+        POSITION mPos1 = NULL, mPos2 = NULL;
+        for (mPos1 = m_list[enBomb].GetHeadPosition(); (mPos2 = mPos1) != NULL;)
+        {
+            MyBomb* pBomb = (MyBomb*)m_list[enBomb].GetNext(mPos1);
+            if (pBomb->GetPoint().x + pBomb->GetImagesWidth() > m_Boss->GetPoint().x   &&
+                pBomb->GetPoint().x < m_Boss->GetPoint().x + m_Boss->GetImagesWidth() &&
+                pBomb->GetPoint().y < m_Boss->GetPoint().y + m_Boss->GetImagesHeight() &&
+                pBomb->GetPoint().y + pBomb->GetImagesHeight() > m_Boss->GetPoint().y)
+            {
+                for (int i = 0; i < 5; i++) srand((unsigned)time(NULL));
+
+                //BOSS掉血
+                m_Boss->SetHp(m_Boss->GetHp() - pBomb->GetDamage());
+
+                m_list[enExplosion].AddTail(new MyExplosion(m_Boss->GetPoint().x + rand() % m_Boss->GetImagesWidth(), m_Boss->GetPoint().y + rand() % m_Boss->GetImagesHeight(), 60, 60));
+
+                if (m_Boss->GetHp() < 0)
+                {
+                    MY_LEVEL = min(MY_LEVEL + 1, MAX_LEVEL);
+                    HARD_LEVEL = min(HARD_LEVEL + 1, MAX_LEVEL);
+
+                    m_list[enExplosion].AddTail(new MyExplosion(m_Boss->GetPoint().x, m_Boss->GetPoint().y, m_Boss->GetImagesWidth(), m_Boss->GetImagesHeight()));
+                    PlaySound((LPCWSTR)IDR_EXOLOSIONENEMY, NULL, SND_ASYNC | SND_RESOURCE);
+                    delete m_Boss;
+                    m_Boss = NULL;
+                }
+
+                m_list[enBomb].RemoveAt(mPos2);
+                delete pBomb;
+                
+                break;
+            }
+        }
+
+        //玩家撞上BOSS
+        if (m_Boss->GetPoint().x + m_Boss->GetImagesWidth() > m_hero->GetPoint().x   &&
+            m_Boss->GetPoint().x < m_hero->GetPoint().x + m_hero->GetImagesWidth() &&
+            m_Boss->GetPoint().y < m_hero->GetPoint().y + m_hero->GetImagesHeight() &&
+            m_Boss->GetPoint().y + m_Boss->GetImagesHeight() > m_hero->GetPoint().y)
+        {
+            int tBoss = m_Boss->GetHp(), tHero = HERO_HP;
+
+            m_Boss->SetHp(m_Boss->GetHp() - tHero);
+            if (m_Boss->GetHp() <= 0)
+            {
+                MY_LEVEL = min(MY_LEVEL + 1, MAX_LEVEL);
+                HARD_LEVEL = min(HARD_LEVEL + 1, MAX_LEVEL);
+
+                m_list[enExplosion].AddTail(new MyExplosion(m_Boss->GetPoint().x, m_Boss->GetPoint().y, m_Boss->GetImagesWidth(), m_Boss->GetImagesHeight()));
+                PlaySound((LPCWSTR)IDR_EXOLOSIONENEMY, NULL, SND_ASYNC | SND_RESOURCE);
+                delete m_Boss;
+                m_Boss = NULL;
+            }
+
+            HERO_HP -= tHero;
+            if (m_hero->GetHp() <= 0)
+            {
+                m_list[enExplosion].AddTail(new MyExplosion(m_hero->GetPoint().x, m_hero->GetPoint().y, m_hero->GetImagesWidth(), m_hero->GetImagesHeight()));
+                PlaySound((LPCWSTR)IDR_EXOLOSIONPLAYER, NULL, SND_ASYNC | SND_RESOURCE);
+
+                if (I_AM_THE_GOD)
+                {
+                    HERO_HP = HERO_MAX_HP;
+                    m_hero->SetPoint(250, 500);
+                    return;
+                }
+                
+                m_hero = NULL;
+                delete m_hero;
+                
+                return;
+            }
         }
     }
 
@@ -409,22 +528,21 @@ void CChildView::AI()
              
             if (HERO_HP <= 0)
             {
+                m_list[enExplosion].AddTail(new MyExplosion(m_hero->GetPoint().x, m_hero->GetPoint().y, m_hero->GetImagesWidth(), m_hero->GetImagesHeight()));
+                PlaySound((LPCWSTR)IDR_EXOLOSIONPLAYER, NULL, SND_ASYNC | SND_RESOURCE);
+
                 HERO_HP = 0;
                 if (I_AM_THE_GOD)
                 {
                     HERO_HP = HERO_MAX_HP;
                     break;
                 }
-                m_list[enExplosion].AddTail(new MyExplosion(m_hero->GetPoint().x, m_hero->GetPoint().y, m_hero->GetImagesWidth(), m_hero->GetImagesHeight()));
 
                 m_hero = NULL;
                 delete m_hero;
 
-                PlaySound((LPCWSTR)IDR_EXOLOSIONPLAYER, NULL, SND_ASYNC | SND_RESOURCE);
-
                 return;
             }
-            
         }
     }
 
@@ -440,40 +558,41 @@ void CChildView::AI()
         {
 
             //设定为敌机摧毁，玩家掉血
-            int tEnemy = pEnemy->GetDamage();
-            
-            //随机生成BUFF
+            int tEnemy = pEnemy->GetHp();
+          
+               //随机生成BUFF
             if (rand() % 100 + 1 <= BUFF_P)
             {
                 m_list[enBuff].AddTail(new MyBuff(pEnemy->GetPoint().x, pEnemy->GetPoint().y));
             }
 
             //敌机摧毁
-           m_list[enExplosion].AddTail(new MyExplosion(pEnemy->GetPoint().x, pEnemy->GetPoint().y, pEnemy->GetImagesWidth(), pEnemy->GetImagesHeight()));
-           m_list[enEnemy].RemoveAt(pos2);
-           delete pEnemy;
-           PlaySound((LPCWSTR)IDR_EXOLOSIONENEMY, NULL, SND_ASYNC | SND_RESOURCE);
-
+            m_list[enExplosion].AddTail(new MyExplosion(pEnemy->GetPoint().x, pEnemy->GetPoint().y, pEnemy->GetImagesWidth(), pEnemy->GetImagesHeight()));
+            m_list[enEnemy].RemoveAt(pos2);
+            delete pEnemy;
+            PlaySound((LPCWSTR)IDR_EXOLOSIONENEMY, NULL, SND_ASYNC | SND_RESOURCE);
+           
             //玩家掉血
             HERO_HP -= tEnemy * PROTECT_DAMAGE;
+
             //玩家子弹降级
             if (!I_AM_THE_GOD)
                 BOMB_LEVEL = max(1, BOMB_LEVEL - 1);
 
             if (HERO_HP <= 0)
             {
+                m_list[enExplosion].AddTail(new MyExplosion(m_hero->GetPoint().x, m_hero->GetPoint().y, m_hero->GetImagesWidth(), m_hero->GetImagesHeight()));
+                PlaySound((LPCWSTR)IDR_EXOLOSIONPLAYER, NULL, SND_ASYNC | SND_RESOURCE);
+
                 HERO_HP = 0;
                 if (I_AM_THE_GOD)
                 {
                     HERO_HP = HERO_MAX_HP;
                     break;
                 }
-                m_list[enExplosion].AddTail(new MyExplosion(m_hero->GetPoint().x, m_hero->GetPoint().y, m_hero->GetImagesWidth(), m_hero->GetImagesHeight()));
 
                 m_hero = NULL;
                 delete m_hero;
-
-                PlaySound((LPCWSTR)IDR_EXOLOSIONPLAYER, NULL, SND_ASYNC | SND_RESOURCE);
 
                 return;
             }
@@ -538,10 +657,9 @@ int CChildView::OnCreate(LPCREATESTRUCT lpCreateStruct)
     if (CWnd::OnCreate(lpCreateStruct) == -1)
         return -1;
 
+    for (int i = 0; i < 5; i++) timer[i] = FALSE;
+
     SetTimer(TIMER_PAINT, 1, NULL);
-    SetTimer(TIMER_CREATENEMY1, rand() % 2000 + 1000 - HARD_LEVEL * 10, NULL);
-    SetTimer(TIMER_CREATENEMY2, rand() % 3000 + 2000 - HARD_LEVEL * 20, NULL);
-    SetTimer(TIMER_CREATENEMY3, rand() % 6000 + 4000 - HARD_LEVEL * 30, NULL);
 
     return 0;
 }
@@ -558,14 +676,23 @@ void CChildView::OnTimer(UINT_PTR nIDEvent)
     case TIMER_CREATENEMY1:
         //创建第一类敌机
         m_list[enEnemy].AddTail(new MyEnemy(ENEMY_TYPE1, min(WINDOWS_HEIGHT, PAGE_HEIGHT), min(WINDOWS_WIDTH, PAGE_WIDTH)));
+        //摧毁计时器
+        KillTimer(TIMER_CREATENEMY1);
+        timer[TIMER_CREATENEMY1] = FALSE;
         break;
     case TIMER_CREATENEMY2:
         //创建第二类敌机
         m_list[enEnemy].AddTail(new MyEnemy(ENEMY_TYPE2, min(WINDOWS_HEIGHT, PAGE_HEIGHT), min(WINDOWS_WIDTH, PAGE_WIDTH)));
+        //摧毁计时器
+        KillTimer(TIMER_CREATENEMY2);
+        timer[TIMER_CREATENEMY2] = FALSE;
         break;
     case TIMER_CREATENEMY3:
         //创建第三类敌机
         m_list[enEnemy].AddTail(new MyEnemy(ENEMY_TYPE3, min(WINDOWS_HEIGHT, PAGE_HEIGHT), min(WINDOWS_WIDTH, PAGE_WIDTH)));
+        //摧毁计时器
+        KillTimer(TIMER_CREATENEMY3);
+        timer[TIMER_CREATENEMY3] = FALSE;
         break;
     default:
         break;

@@ -49,7 +49,7 @@ MyEnemy::~MyEnemy() { delete enemyHp; }
 
 BOOL MyEnemy::Drop() 
 {
-    if (planeType == 3 && GetPoint().y > rand() % (windowsHeight / 4) + imagesHeight)
+    if (planeType == 3 && GetPoint().y > rand() % (windowsHeight / 4) + imagesHeight + 30)
     {
         moveX = 0;
         moveY = 0;

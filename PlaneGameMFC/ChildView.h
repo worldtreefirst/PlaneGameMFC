@@ -10,6 +10,7 @@
 class MyPlane;
 class MyHpStrip;
 class MyEnemy;
+class MyBoss;
 class CChildView : public CWnd
 {
 public:
@@ -42,6 +43,9 @@ private:
     bool large;
     CDC m_cacheDC;
     CRect m_client;
+    BOOL boss;
+    BOOL timer[5];
+    MyBoss* m_Boss;
     MyPlane* m_hero;
     MyHpStrip* m_herohp;
     CObList m_list[50];

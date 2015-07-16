@@ -4,10 +4,10 @@
 
 MyEnemyBomb::MyEnemyBomb(int x, int y, int d, int mx, int my) : MyGameObject(x, y)
 {
+    m_Images.LoadFromResource(AfxGetInstanceHandle(), IDB_ENEMYBOMB);
     SetDamage(d);
     imagesWidth = 10;
     imagesHeight = 20;
-    m_Images.LoadFromResource(AfxGetInstanceHandle(), IDB_ENEMYBOMB);
     moveX = mx;
     moveY = my;
 }
