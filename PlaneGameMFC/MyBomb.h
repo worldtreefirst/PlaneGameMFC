@@ -14,6 +14,5 @@ public:
     ~MyBomb();
 private:
     int damage;
-    static const int BOMB_HEIGHT = 20;
 };
 

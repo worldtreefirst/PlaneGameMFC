@@ -61,9 +61,9 @@ void MyBeginDialog::OnBnClickedHehe()
 {
     // TODO:  在此添加控件通知处理程序代码
     BEGINGAME = TRUE;
-    HERO_HP = 100;
-    HERO_MAX_HP = 100;
-    HARD_LEVEL = 1;
+    HERO_HP = 1000;
+    HERO_MAX_HP = 1000;
+    HARD_LEVEL = 100;
     BOMB_LEVEL = 1;
     MyGameObject::iAmTheGod = TRUE;
     CDialogEx::OnOK();

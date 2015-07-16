@@ -61,4 +61,11 @@ void MyBuff::SetType(int t) { type = t; }
 
 int MyBuff::GetType() const { return type; }
 
-BOOL MyBuff::Drop() { return FALSE; }
+BOOL MyBuff::Drop() 
+{ 
+    if (GetPoint().x > windowsWidth)     return TRUE;
+    if (GetPoint().y > windowsHeight)    return TRUE;
+    if (GetPoint().x + imagesWidth < 0)  return TRUE;
+    if (GetPoint().y + imagesHeight < 0) return TRUE;
+    return FALSE;
+}

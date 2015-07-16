@@ -33,9 +33,9 @@ MyEnemy::MyEnemy(int t, int windowsHeight, int windowsWidth) : planeType(t)
             SetPoint(windowsWidth, rand() % (windowsHeight / 4) - imagesHeight);
         }
     }
-    SetHp(20 + 7 * HARD_LEVEL * planeType * planeType);
-    SetMaxHp(20 + 7 * HARD_LEVEL * planeType * planeType);
-    SetDamage(20 + rand() % (HARD_LEVEL * (4 - planeType)) + HARD_LEVEL * (4 - planeType));
+    SetHp(20 + 10 * HARD_LEVEL * planeType * planeType);
+    SetMaxHp(20 + 10 * HARD_LEVEL * planeType * planeType);
+    SetDamage(20 + rand() % (HARD_LEVEL * (4 - planeType)) + 2 * HARD_LEVEL * (4 - planeType));
     change = rand() % 100 + 100;
     lFire = rand() % 150 + 50;
     nFire = rand() % lFire + t * 10;
@@ -64,6 +64,7 @@ BOOL MyEnemy::Drop()
 
 BOOL MyEnemy::Fire()
 {
+    SetDamage(20 + rand() % (HARD_LEVEL * (4 - planeType)) + HARD_LEVEL * (4 - planeType));
     if (!nFire)
     {
         nFire++;

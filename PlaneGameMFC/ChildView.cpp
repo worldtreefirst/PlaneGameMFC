@@ -187,14 +187,8 @@ void CChildView::OnPaint()
     cCString[5].Format(_T("导弹等级：%d"), BOMB_LEVEL);
     cCString[6].Format(_T("装甲等级：%d"), PROTECT_LEVEL);
     cCString[7].Format(_T("伤害：%d ~ %d "), SHOW_MIN_DAMAGE, SHOW_MAX_DAMAGE);
-    if (MyGameObject::beginGame)
-        cCString[8].Format(_T("ok"));
-    else
-    {
-        cCString[8].Format(_T("oh shit"));
-    }
 
-    for (int i = 0; i < 9; i++)
+    for (int i = 0; i < 8; i++)
     {
         TextOut(m_cacheDC, 0, i * 25, cCString[i], cCString[i].GetLength());
     }
@@ -365,14 +359,24 @@ void CChildView::AI()
         }
     }
 
-    
     //BOSS存在
     if (m_Boss != NULL)
     {
         //BOSS发射子弹
         if (m_Boss->Fire())
         {
-            m_list[enEnemyBomb].AddTail(new MyEnemyBomb(m_Boss->GetPoint().x + 25, m_Boss->GetPoint().y + 60, m_Boss->GetDamage(), 0, 10));
+            m_list[enEnemyBomb].AddTail(new MyEnemyBomb(m_Boss->GetPoint().x + m_Boss->GetImagesWidth() / 2, m_Boss->GetPoint().y + m_Boss->GetImagesHeight() / 2, m_Boss->GetDamage(), 7, 0));
+            m_list[enEnemyBomb].AddTail(new MyEnemyBomb(m_Boss->GetPoint().x + m_Boss->GetImagesWidth() / 2, m_Boss->GetPoint().y + m_Boss->GetImagesHeight() / 2, m_Boss->GetDamage(), -7, 0));
+            m_list[enEnemyBomb].AddTail(new MyEnemyBomb(m_Boss->GetPoint().x + m_Boss->GetImagesWidth() / 2, m_Boss->GetPoint().y + m_Boss->GetImagesHeight() / 2, m_Boss->GetDamage(), 0, 7));
+            m_list[enEnemyBomb].AddTail(new MyEnemyBomb(m_Boss->GetPoint().x + m_Boss->GetImagesWidth() / 2, m_Boss->GetPoint().y + m_Boss->GetImagesHeight() / 2, m_Boss->GetDamage(), 0, -7));
+            int dx[] = { -1, -1,  1, 1 };
+            int dy[] = { 1, -1, -1, 1 };
+            for (int i = 0; i < 4; i++)
+            {
+                m_list[enEnemyBomb].AddTail(new MyEnemyBomb(m_Boss->GetPoint().x + m_Boss->GetImagesWidth() / 2, m_Boss->GetPoint().y + m_Boss->GetImagesHeight() / 2, m_Boss->GetDamage(), 3 * dx[i], 6 * dy[i]));
+                m_list[enEnemyBomb].AddTail(new MyEnemyBomb(m_Boss->GetPoint().x + m_Boss->GetImagesWidth() / 2, m_Boss->GetPoint().y + m_Boss->GetImagesHeight() / 2, m_Boss->GetDamage(), 6 * dx[i], 3 * dy[i]));
+                m_list[enEnemyBomb].AddTail(new MyEnemyBomb(m_Boss->GetPoint().x + m_Boss->GetImagesWidth() / 2, m_Boss->GetPoint().y + m_Boss->GetImagesHeight() / 2, m_Boss->GetDamage(), 5 * dx[i], 5 * dy[i]));
+            }
         }
 
         //导弹击中BOSS
@@ -381,7 +385,7 @@ void CChildView::AI()
         {
             MyBomb* pBomb = (MyBomb*)m_list[enBomb].GetNext(mPos1);
             if (pBomb->GetPoint().x + pBomb->GetImagesWidth() > m_Boss->GetPoint().x   &&
-                pBomb->GetPoint().x < m_Boss->GetPoint().x + m_Boss->GetImagesWidth() &&
+                pBomb->GetPoint().x < m_Boss->GetPoint().x + m_Boss->GetImagesWidth()  &&
                 pBomb->GetPoint().y < m_Boss->GetPoint().y + m_Boss->GetImagesHeight() &&
                 pBomb->GetPoint().y + pBomb->GetImagesHeight() > m_Boss->GetPoint().y)
             {
@@ -391,6 +395,9 @@ void CChildView::AI()
                 m_Boss->SetHp(m_Boss->GetHp() - pBomb->GetDamage());
 
                 m_list[enExplosion].AddTail(new MyExplosion(m_Boss->GetPoint().x + rand() % m_Boss->GetImagesWidth(), m_Boss->GetPoint().y + rand() % m_Boss->GetImagesHeight(), 60, 60));
+
+                m_list[enBomb].RemoveAt(mPos2);
+                delete pBomb;
 
                 if (m_Boss->GetHp() < 0)
                 {
@@ -403,10 +410,7 @@ void CChildView::AI()
                     m_Boss = NULL;
                 }
 
-                m_list[enBomb].RemoveAt(mPos2);
-                delete pBomb;
-                
-                break;
+                return;
             }
         }
 

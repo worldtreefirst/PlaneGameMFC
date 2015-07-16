@@ -40,7 +40,11 @@ MyBomb::~MyBomb() { }
 
 BOOL MyBomb::Drop()
 {
-    if (GetPoint().y + BOMB_HEIGHT < 0) return TRUE;
+    if (GetPoint().x > windowsWidth)     return TRUE;
+    if (GetPoint().y > windowsHeight)    return TRUE;
+    if (GetPoint().x + imagesWidth < 0)  return TRUE;
+    if (GetPoint().y + imagesHeight < 0) return TRUE;
+    return FALSE;
     return FALSE;
 }
 
