@@ -3,16 +3,12 @@
 class MyBomb :
     public MyGameObject
 {
-public:
-    BOOL Drop();
-    CRect GetRect();
-    void GetWindowsHeight(int x);
+public: 
+    BOOL Drop();                     //是否被摧毁
 
 public:
-    static int BombLevel;
+    static int BombLevel;            //导弹等级
     MyBomb(int x, int y, int t, int mx, int my, int d);
     ~MyBomb();
-private:
-    int damage;
 };
 

@@ -50,8 +50,6 @@ BOOL MyPlane::Fire()
     return FALSE;
 }
 
-int MyPlane:: GetFire() const { return nFire; }
-
 BOOL MyPlane::Drop() { return TRUE; }
 
 int MyPlane::hp = 100;

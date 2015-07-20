@@ -4,14 +4,13 @@ class MyEnemyBomb :
     public MyGameObject
 {
 public:
-    BOOL Drop();
+    BOOL Drop();             //是否被摧毁
 
 public:
     MyEnemyBomb(int x, int y, int d, int mx, int my);
     ~MyEnemyBomb();
 
 private:
-    int BombV;
-
+    int BombV;               //子弹速度
 };
 

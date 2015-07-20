@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CAboutDlg" Collapsed="true">
+    <Position X="6.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAABAAAAAAAAAAAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>PlaneGameMFC.cpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CChildView" Collapsed="true">
+    <Position X="8.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQTgAACASCEMAAAAAKACAEwQhCAAgAAIAAAgIQgAAAA=</HashCode>
+      <FileName>ChildView.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CMainFrame" Collapsed="true">
+    <Position X="10.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAQAAAACAQAiAAAoCEAAgAgAABQAAAAAgA=</HashCode>
+      <FileName>MainFrm.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MyBeginDialog" Collapsed="true">
+    <Position X="8.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAAAQABAAAAAAAAAAgAAAAAAEAAAAAAA=</HashCode>
+      <FileName>MyBeginDialog.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MyBomb" Collapsed="true">
+    <Position X="0.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQIAAAAEAUgAAAAAAAAAAAAAAAAAAAAAAAEAAAAAA=</HashCode>
+      <FileName>MyBomb.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MyBoss" Collapsed="true">
+    <Position X="7.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAgAAAQAAAAgAAAAAAAAAAEAgAABAAAAABEAAA=</HashCode>
+      <FileName>MyBoss.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MyBuff" Collapsed="true">
+    <Position X="12" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAAAAAAAIAAAABAAEQAAAAAAAAAQA=</HashCode>
+      <FileName>MyBuff.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MyEnemy" Collapsed="true">
+    <Position X="14.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAEBAAAAQAAAAgAIAAAAAAAAEAgAQAAAAAABAAAA=</HashCode>
+      <FileName>MyEnemy.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MyEnemyBomb" Collapsed="true">
+    <Position X="3" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAQAAAAAAAAAAAAAAAAAAIAAAAAAAAAAgA=</HashCode>
+      <FileName>MyEnemyBomb.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MyExplosion" Collapsed="true">
+    <Position X="9.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAGAAAAAQAAAAAAAAAAgAIAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>MyExplosion.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MyGameObject" Collapsed="true">
+    <Position X="8.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAEmYRCQAhgQgAAAAFAQEAEgAAEREQAAAARAhAAAADI=</HashCode>
+      <FileName>MyGameObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MyHpStrip" Collapsed="true">
+    <Position X="16.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAAAAAAAAAAAAAAIAAAAEAAAAAAAA=</HashCode>
+      <FileName>MyHpStrip.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MyPlane" Collapsed="true">
+    <Position X="5.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EIxAIAQAAAAQIIAIQAAAAAJBCAEEAgAAAABEAIAAAAA=</HashCode>
+      <FileName>MyPlane.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CMFCPlaneGameApp" Collapsed="true">
+    <Position X="6.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAEAAAAAAAABQAAAAAQCAAARAAACAAA=</HashCode>
+      <FileName>PlaneGameMFC.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>

@@ -32,9 +32,9 @@
 #ifndef _WINDOWS__
 #define _WINDOWS__
 #define WINDOWS_WIDTH m_client.Width()
-#define WINDOWS_HEIGHT  m_client.Height()
-#define PAGE_WIDTH m_bg.GetWidth()
-#define PAGE_HEIGHT m_bg.GetHeight()
+#define WINDOWS_HEIGHT m_client.Height()
+#define PAGE_WIDTH mBgList[bg_type].GetWidth()
+#define PAGE_HEIGHT mBgList[bg_type].GetHeight()
 #define BEGINGAME MyGameObject::beginGame
 #define I_AM_THE_GOD MyGameObject::iAmTheGod
 #endif
@@ -81,7 +81,6 @@
 
 CChildView::CChildView()
 {
-	large = false;
 	bg_pos = 0;
 	n_states = 0;
 }
@@ -129,14 +128,12 @@ BOOL CChildView::PreCreateWindow(CREATESTRUCT& cs)
 
     //初始化背景
     LoadBg();
-    m_bg.LoadFromResource(AfxGetInstanceHandle(), IDB_BACKGROUND);
 
     //加载英雄
     m_hero = new MyPlane;
     m_herohp = new MyHpStrip;
     
     //加载boss
-    boss = FALSE;
     m_Boss = NULL;
 
     //初始化得分
@@ -160,12 +157,13 @@ BOOL CChildView::PreCreateWindow(CREATESTRUCT& cs)
 void CChildView::OnPaint()
 {
     //CPaintDC dc(this); // 用于绘制的设备上下文
-    CPaintDC dc(this);
-    CDC *cDC = this->GetDC();
+    cDC = this->GetDC();
     GetClientRect(&m_client);
+	//创建缓冲DC
     m_cacheDC.CreateCompatibleDC(NULL);
     m_cacheBitmap.CreateCompatibleBitmap(cDC, WINDOWS_WIDTH, WINDOWS_HEIGHT);
     m_cacheDC.SelectObject(&m_cacheBitmap);
+
     m_cacheDC.SetBkMode(TRANSPARENT);
 
     CFont font;
@@ -195,6 +193,7 @@ void CChildView::OnPaint()
     }
     m_cacheDC.SelectObject(pOldFont);
 
+	//将缓冲DC绘制在窗口DC上
     cDC->BitBlt(0, 0, WINDOWS_WIDTH, WINDOWS_HEIGHT, &m_cacheDC, 0, 0, SRCCOPY);
 
     ValidateRect(&m_client);

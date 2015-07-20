@@ -4,7 +4,7 @@ class MyHpStrip :
     public MyGameObject
 {
 public:
-    BOOL Drop();
+    BOOL Drop();      //ÊÇ·ñ±»´Ý»Ù
 
 public:
     MyHpStrip();

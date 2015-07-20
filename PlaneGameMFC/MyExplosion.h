@@ -4,8 +4,8 @@ class MyExplosion :
     public MyGameObject
 {
 public:
-    BOOL Drop();
-    void UpDateStates();
+    BOOL Drop();                 //是否被摧毁
+    void UpDateStates();         //更新位标
     int GetStates() const ;
 
 public:
@@ -13,6 +13,5 @@ public:
     ~MyExplosion();
 
 private:
-    int nStates;
-
+    int nStates;                  //当前位标
 };
