@@ -53,8 +53,8 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
         return -1;
     }
 
-    MyBeginDialog b;
-    b.DoModal();
+    MyBeginDialog begin;
+	begin.DoModal();
     //SetMenu(NULL);
     return 0;
 }

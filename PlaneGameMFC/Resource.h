@@ -2,7 +2,6 @@
 // Microsoft Visual C++ 生成的包含文件。
 // 供 PlaneGameMFC.rc 使用
 //
-#define IDD_BEGIN                       9
 #define IDD_ABOUTBOX                    100
 #define IDP_OLE_INIT_FAILED             100
 #define IDR_POPUP_EDIT                  119
@@ -32,10 +31,22 @@
 #define IDS_EDIT_MENU                   306
 #define IDB_BACKGROUND                  310
 #define IDR_BGMUSIC                     311
+#define IDD_DIALOG1                     313
 #define IDR_EXOLOSIONENEMY              315
 #define IDR_EXOLOSIONPLAYER             316
 #define IDR_SHOOT                       317
 #define IDB_PLANE                       322
+#define IDB_BOMB1                       326
+#define IDB_BOMB2                       327
+#define IDB_ENEMYBOMB                   328
+#define IDB_EXP                         329
+#define IDB_MYHEROHP                    330
+#define IDB_BOMB                        331
+#define IDB_DAMAGE                      332
+#define IDB_BOMB3                       333
+#define IDB_MY                          334
+#define IDB_PROTECT                     335
+#define IDB_HP                          336
 #define IDB_ENEMY1                      341
 #define IDB_ENEMY2                      342
 #define IDB_ENEMY3                      343
@@ -45,40 +56,24 @@
 #define IDB_ENEMY7                      347
 #define IDB_ENEMY8                      348
 #define IDB_ENEMY9                      349
-#define IDB_BOMB1                       326
-#define IDB_BOMB2                       327
-#define IDB_BOMB3                       333
-#define IDB_ENEMYBOMB                   328
-#define IDB_EXP                         329
-#define IDB_MYHEROHP                    330
-#define IDB_BOMB                        331
-#define IDB_DAMAGE                      332
-#define IDB_HP                          336
-#define IDB_MY                          334
-#define IDB_PROTECT                     335
 #define IDB_BACKGROUND1                 350
 #define IDB_BACKGROUND2                 351
 #define IDB_BACKGROUND3                 352
 #define IDB_BACKGROUND4                 353
 #define IDB_BACKGROUND5                 354
-#define IDC_HEHE                        1000
-#define IDC_BUTTON2                     1002
-#define IDC_HARD2                       1002
-#define IDC_HARD3                       1003
-#define IDC_HARD4                       1004
-#define IDC_HARD1                       1005
 #define IDB_BOSS1                       381
 #define IDB_BOSS2                       382
 #define IDB_BOSS3                       383
 #define IDB_BOSS4                       384
 #define IDB_BOSS5                       385
 #define IDB_BOSS6                       386
+#define IDC_BUTTON2                     1002
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        313
+#define _APS_NEXT_RESOURCE_VALUE        314
 #define _APS_NEXT_COMMAND_VALUE         32771
 #define _APS_NEXT_CONTROL_VALUE         1006
 #define _APS_NEXT_SYMED_VALUE           310

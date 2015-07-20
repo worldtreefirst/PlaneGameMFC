@@ -57,13 +57,13 @@
     <ClInclude Include="MyHpStrip.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="MyBeginDialog.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="MyBuff.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="MyBoss.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="MyBeginDialog.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -101,13 +101,13 @@
     <ClCompile Include="MyHpStrip.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="MyBeginDialog.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="MyBuff.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="MyBoss.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="MyBeginDialog.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -160,6 +160,72 @@
       <Filter>资源文件</Filter>
     </Image>
     <Image Include="res\picture\Bomb3.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\picture\Enemy4.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\picture\Enemy5.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\picture\Enemy6.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\picture\Enemy7.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\picture\Enemy8.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\picture\Enemy9.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\picture\BombLevel.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\picture\DamageLevel.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\picture\HpAdd.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\picture\MyLevel.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\picture\ProtectLevel.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\picture\BackGroud1.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\picture\BackGroud2.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\picture\BackGroud3.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\picture\BackGroud4.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\picture\BackGroud5.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\picture\Boss1.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\picture\Boss2.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\picture\Boss3.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\picture\Boss4.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\picture\Boss5.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\picture\Boss6.bmp">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>

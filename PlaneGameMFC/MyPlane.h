@@ -22,10 +22,6 @@ public:
     ~MyPlane();
 
 public:
-    static const int PLANE_WIDTH = 60;
-    static const int PLANE_HEIGHT = 60;
-
-public:
     static int          hp;
     static int       maxHp;
     static int     myLevel;

@@ -12,17 +12,13 @@ public:
 	virtual ~MyBeginDialog();
 
 // 对话框数据
-	enum { IDD = IDD_BEGIN };
+	enum { IDD = IDD_DIALOG1 };
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
 
 	DECLARE_MESSAGE_MAP()
 public:
-    afx_msg void OnBnClickedOk();
-    afx_msg void OnBnClickedHehe();
-    afx_msg void OnBnClickedHard1();
-    afx_msg void OnBnClickedHard2();
-    afx_msg void OnBnClickedHard3();
-    afx_msg void OnBnClickedHard4();
+	afx_msg void OnBnClickedOk();
+	afx_msg void OnBnClickedCancel();
 };

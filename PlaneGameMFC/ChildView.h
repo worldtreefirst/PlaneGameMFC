@@ -55,5 +55,7 @@ private:
     enum ObjType{ enEnemy, enBomb, enEnemyBomb, enBuff, enHpStrip, enExplosion };
 public:
     void CreateBomb(MyEnemy* e);
+private:
+	int n_states;
 };
 

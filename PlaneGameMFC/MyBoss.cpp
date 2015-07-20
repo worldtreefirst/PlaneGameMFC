@@ -21,7 +21,7 @@ MyBoss::MyBoss(int w, int h) : MyGameObject(rand() % (w - 200), -150)
     SetHp(HARD_LEVEL * 500);
     SetMaxHp(HARD_LEVEL * 500);
     myBossHp = new MyHpStrip;
-    change = rand() % 250 + 100;
+    change = rand() % 50 + 100 - HARD_LEVEL;
     nFire = rand() % 10 + 121 - HARD_LEVEL;
     lFire = rand() % nFire;
 }

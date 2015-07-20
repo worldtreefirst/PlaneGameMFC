@@ -36,11 +36,8 @@ MyEnemy::MyEnemy(int t, int windowsHeight, int windowsWidth) : planeType(t)
     SetHp(20 + 10 * HARD_LEVEL * planeType * planeType);
     SetMaxHp(20 + 10 * HARD_LEVEL * planeType * planeType);
     SetDamage(20 + rand() % (HARD_LEVEL * (4 - planeType)) + 2 * HARD_LEVEL * (4 - planeType));
-    change = rand() % 100 + 100;
     lFire = rand() % 150 + 50;
     nFire = rand() % lFire + t * 10;
-    //moveX = 0;
-    //moveY = rand() % 5 + 3;
     enemyHp = new MyHpStrip;
 }
 

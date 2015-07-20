@@ -50,8 +50,8 @@
 
 #ifndef _PLANE__
 #define _PLANE__
-#define PLANE_WIDTH 60
-#define PLANE_HEIGHE 60
+#define PLANE_WIDTH m_hero->GetImagesWidth()
+#define PLANE_HERIGT m_hero->GetImagesHeight()
 #define ENEMY_TYPE1 1
 #define ENEMY_TYPE2 2
 #define ENEMY_TYPE3 3 
@@ -81,8 +81,9 @@
 
 CChildView::CChildView()
 {
-    large = false;
-    bg_pos = 0;
+	large = false;
+	bg_pos = 0;
+	n_states = 0;
 }
 
 CChildView::~CChildView() { }
@@ -245,9 +246,9 @@ void CChildView::Running()
     //ÌùÓ¢ÐÛ
     if (m_hero != NULL)
     {
-        m_hero->m_Images.TransparentBlt(m_cacheDC, m_hero->GetPoint().x, m_hero->GetPoint().y, PLANE_WIDTH, PLANE_HEIGHE, 0, 0, m_hero->m_Images.GetWidth(), m_hero->m_Images.GetHeight(), RGB(255, 255, 255));
+		m_hero->m_Images.TransparentBlt(m_cacheDC, m_hero->GetPoint().x, m_hero->GetPoint().y, PLANE_HERIGT, PLANE_HERIGT, 210 * (n_states / 8), 0, 210, 300, RGB(255, 255, 255));
         if (HERO_MAX_HP / HERO_HP < 60)
-            m_herohp->m_Images.Draw(m_cacheDC, m_hero->GetPoint().x, m_hero->GetPoint().y - 20, PLANE_WIDTH * HERO_HP / HERO_MAX_HP, 30, 0, 0, PLANE_WIDTH, PLANE_HEIGHE);
+            m_herohp->m_Images.Draw(m_cacheDC, m_hero->GetPoint().x, m_hero->GetPoint().y - 20, PLANE_WIDTH * HERO_HP / HERO_MAX_HP, 30, 0, 0, PLANE_WIDTH, PLANE_HERIGT);
     }
     else
     { 
@@ -674,6 +675,8 @@ void CChildView::OnTimer(UINT_PTR nIDEvent)
     {
     case TIMER_PAINT:
         bg_pos++;
+		n_states++;
+		if (n_states > 64) n_states = 0;
         if (bg_pos > PAGE_HEIGHT) bg_pos = 0;
         OnPaint();
         break;

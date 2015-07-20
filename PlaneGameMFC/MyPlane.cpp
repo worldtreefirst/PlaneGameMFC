@@ -7,8 +7,8 @@ MyPlane::MyPlane() : MyGameObject(250, 550)
 {
     SetMoveX(0);
     SetMoveY(0);
-    imagesWidth = 60;
-    imagesHeight = 60;
+    imagesWidth = 100;
+    imagesHeight = 100;
     nFire = 0;
     SetVerMotion(0);
     SetHorMotion(0);
@@ -38,9 +38,9 @@ void MyPlane::updatePoint()
 void MyPlane::judgeEdge(int PAGE_WIDTH, int PAGE_HEIGHT, int WINDOWS_WIDTH, int WINDOWS_HEIGHT)
 {
     if (m_ptPos.x < 0) m_ptPos.x = 0;
-    if (m_ptPos.x + PLANE_WIDTH > min(PAGE_WIDTH, WINDOWS_WIDTH)) m_ptPos.x = min(PAGE_WIDTH, WINDOWS_WIDTH) - PLANE_WIDTH;
+	if (m_ptPos.x + imagesWidth > min(PAGE_WIDTH, WINDOWS_WIDTH)) m_ptPos.x = min(PAGE_WIDTH, WINDOWS_WIDTH) - imagesWidth;
     if (m_ptPos.y < 0) m_ptPos.y = 0;
-    if (m_ptPos.y + PLANE_HEIGHT > min(PAGE_HEIGHT, WINDOWS_HEIGHT)) m_ptPos.y = min(PAGE_HEIGHT, WINDOWS_HEIGHT) - PLANE_HEIGHT;
+	if (m_ptPos.y + imagesHeight > min(PAGE_HEIGHT, WINDOWS_HEIGHT)) m_ptPos.y = min(PAGE_HEIGHT, WINDOWS_HEIGHT) - imagesHeight;
 }
 
 
