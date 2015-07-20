@@ -722,28 +722,28 @@ void CChildView::BombLevel(int l)
     switch (l)
     {
     case 1:
-        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 20, tPoint.y - 5, 1, 0, -10, HERO_DAMAGE));
+        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 35, tPoint.y - 5, 1, 0, -10, HERO_DAMAGE));
         break;
     case 2:
-        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 15, tPoint.y - 5, 2, 0, -10, HERO_DAMAGE));
+        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 30, tPoint.y - 5, 2, 0, -10, HERO_DAMAGE));
         break;
     case 3:
-        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 15, tPoint.y - 5, 2,  0, -10, HERO_DAMAGE));
-        m_list[enBomb].AddTail(new MyBomb(tPoint.x - 5,      tPoint.y, 1, -3, -10, HERO_DAMAGE));
-        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 45,     tPoint.y, 1,  3, -10, HERO_DAMAGE));
+        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 30, tPoint.y - 5, 2,  0, -10, HERO_DAMAGE));
+        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 10,     tPoint.y, 1, -3, -10, HERO_DAMAGE));
+        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 60,     tPoint.y, 1,  3, -10, HERO_DAMAGE));
         break;
     case 4:
     //default:
-        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 15, tPoint.y - 5, 2,  0, -10, HERO_DAMAGE));
-        m_list[enBomb].AddTail(new MyBomb(tPoint.x - 15,     tPoint.y, 2, -3, -10, HERO_DAMAGE));
-        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 45,     tPoint.y, 2,  3, -10, HERO_DAMAGE));
+        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 30, tPoint.y - 5, 2,  0, -10, HERO_DAMAGE));
+        m_list[enBomb].AddTail(new MyBomb(     tPoint.x,     tPoint.y, 2, -3, -10, HERO_DAMAGE));
+        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 60,     tPoint.y, 2,  3, -10, HERO_DAMAGE));
         break;
     default:
-        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 15,  tPoint.y - 5, 2,  0, -10, HERO_DAMAGE));
-        m_list[enBomb].AddTail(new MyBomb(tPoint.x - 15,      tPoint.y, 2, -3, -10, HERO_DAMAGE));
-        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 45,      tPoint.y, 2,  3, -10, HERO_DAMAGE));
-        m_list[enBomb].AddTail(new MyBomb(tPoint.x - 45, tPoint.y + 10, 3, -5, -10, HERO_DAMAGE));
-        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 80, tPoint.y + 10, 4,  5, -10, HERO_DAMAGE));
+        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 30,  tPoint.y - 5, 2,  0, -10, HERO_DAMAGE));
+        m_list[enBomb].AddTail(new MyBomb(     tPoint.x,      tPoint.y, 2, -3, -10, HERO_DAMAGE));
+        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 60,      tPoint.y, 2,  3, -10, HERO_DAMAGE));
+        m_list[enBomb].AddTail(new MyBomb(tPoint.x - 30, tPoint.y + 10, 3, -5, -10, HERO_DAMAGE));
+        m_list[enBomb].AddTail(new MyBomb(tPoint.x + 95, tPoint.y + 10, 4,  5, -10, HERO_DAMAGE));
         break;
     }
 }

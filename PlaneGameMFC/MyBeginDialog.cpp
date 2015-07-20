@@ -43,7 +43,6 @@ void MyBeginDialog::OnBnClickedOk()
 	// TODO:  在此添加控件通知处理程序代码
 	MyGameObject::beginGame = TRUE;
 	MyGameObject::iAmTheGod = TRUE;
-	MyGameObject::HardLevel = 100;
 	CDialogEx::OnOK();
 }
 
